@@ -1,0 +1,18 @@
+{
+  "name": "palasthotel/community-participation",
+  "description": "Let community participate in the content creation",
+  "autoload": {
+    "psr-4": {
+      "Palasthotel\\WordPress\\CommunityParticipation\\": "classes"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/palasthotel/wp-components.git"
+    }
+  ],
+  "require": {
+    "palasthotel/wp-components": "0.0.9"
+  }
+}

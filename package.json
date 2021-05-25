@@ -1,0 +1,20 @@
+{
+  "name": "@palasthotel/community-participation",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "wp-scripts": "./node_modules/.bin/wp-scripts",
+    "watch": "wp-scripts start src/admin.js src/public.js --output-path=public/dist",
+    "build": "wp-scripts build src/admin.js src/public.js --output-path=public/dist"
+  },
+  "author": "Edward Bock",
+  "license": "ISC",
+  "dependencies": {
+    "@wordpress/api-fetch": "^5.1.0",
+    "@wordpress/components": "^14.1.0",
+    "@wordpress/dom-ready": "^3.1.0",
+    "@wordpress/scripts": "^16.1.0",
+    "swr": "^0.5.6"
+  }
+}

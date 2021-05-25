@@ -1,0 +1,180 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Community participation\n"
+"POT-Creation-Date: 2021-05-18 06:31+0200\n"
+"PO-Revision-Date: 2021-05-18 06:32+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.3\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: community-participation.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: vendor\n"
+
+#: classes/Data/PostTypeProposal.php:22
+msgctxt "Post Type General Name"
+msgid "Proposals"
+msgstr "Vorschläge"
+
+#: classes/Data/PostTypeProposal.php:23
+msgctxt "Post Type Singular Name"
+msgid "Proposal"
+msgstr "Vorschlag"
+
+#: classes/Data/PostTypeProposal.php:24 classes/Data/PostTypeProposal.php:25
+#: classes/Data/PostTypeProposal.php:26
+msgid "Proposal"
+msgstr "Vorschlag"
+
+#: classes/Data/PostTypeProposal.php:27
+msgid "Parent proposal:"
+msgstr "Elternvorschlag:"
+
+#: classes/Data/PostTypeProposal.php:28 classes/Data/PostTypeProposal.php:50
+msgid "Proposals"
+msgstr "Vorschläge"
+
+#: classes/Data/PostTypeProposal.php:29
+msgid "Add proposal"
+msgstr "Vorschlag hinzufügen"
+
+#: classes/Data/PostTypeProposal.php:30
+msgid "New proposal"
+msgstr "Neuer Vorschlag"
+
+#: classes/Data/PostTypeProposal.php:31 classes/Data/PostTypeVoting.php:31
+msgid "New"
+msgstr "Neu"
+
+#: classes/Data/PostTypeProposal.php:32 classes/Data/PostTypeVoting.php:32
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: classes/Data/PostTypeProposal.php:33 classes/Data/PostTypeVoting.php:33
+msgid "Update"
+msgstr "Aktualisieren"
+
+#: classes/Data/PostTypeProposal.php:34 classes/Data/PostTypeVoting.php:34
+msgid "View"
+msgstr "Anzeigen"
+
+#: classes/Data/PostTypeProposal.php:35 classes/Data/PostTypeVoting.php:35
+msgid "Search"
+msgstr "Suche"
+
+#: classes/Data/PostTypeProposal.php:36 classes/Data/PostTypeVoting.php:36
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+#: classes/Data/PostTypeProposal.php:37 classes/Data/PostTypeVoting.php:37
+msgid "Not found in trash"
+msgstr "Nicht im Papierkorb gefunden"
+
+#: classes/Data/PostTypeProposal.php:38 classes/Data/PostTypeVoting.php:38
+msgid "Featured image"
+msgstr "Beitragsbild"
+
+#: classes/Data/PostTypeProposal.php:39 classes/Data/PostTypeVoting.php:39
+msgid "Set featured image"
+msgstr "Beitragsbild festlegen"
+
+#: classes/Data/PostTypeProposal.php:40 classes/Data/PostTypeVoting.php:40
+msgid "Remove featured image"
+msgstr "Beitragsbild entfernen"
+
+#: classes/Data/PostTypeProposal.php:41 classes/Data/PostTypeVoting.php:41
+msgid "Use as featured image"
+msgstr "Als Beitragsbild verwenden"
+
+#: classes/Data/PostTypeProposal.php:42 classes/Data/PostTypeVoting.php:42
+msgid "Insert into item"
+msgstr "In Eintrag einfügen"
+
+#: classes/Data/PostTypeProposal.php:43 classes/Data/PostTypeVoting.php:43
+msgid "Uploaded to this item"
+msgstr "Zu diesem Eintrag hochladen"
+
+#: classes/Data/PostTypeProposal.php:44 classes/Data/PostTypeVoting.php:44
+msgid "Items list"
+msgstr "Einträge"
+
+#: classes/Data/PostTypeProposal.php:45 classes/Data/PostTypeVoting.php:45
+msgid "Items list navigation"
+msgstr "Eintragsliste Navigation"
+
+#: classes/Data/PostTypeProposal.php:46 classes/Data/PostTypeVoting.php:46
+msgid "Filter items list"
+msgstr "Einträge filtern"
+
+#: classes/Data/PostTypeProposal.php:51
+msgid "Adds custom post type community proposal"
+msgstr "Fügt benutzerdefinierte Post-Typ-Community-Vorschlag hinzu"
+
+#: classes/Data/PostTypeVoting.php:22
+msgctxt "Post Type General Name"
+msgid "Votings"
+msgstr "Abstimmungen"
+
+#: classes/Data/PostTypeVoting.php:23
+msgctxt "Post Type Singular Name"
+msgid "Voting"
+msgstr "Abstimmung"
+
+#: classes/Data/PostTypeVoting.php:24 classes/Data/PostTypeVoting.php:25
+#: classes/Data/PostTypeVoting.php:26
+msgid "Voting"
+msgstr "Abstimmung"
+
+#: classes/Data/PostTypeVoting.php:27
+msgid "Parent voting:"
+msgstr "Elternabstimmung:"
+
+#: classes/Data/PostTypeVoting.php:28 classes/Data/PostTypeVoting.php:55
+msgid "Votings"
+msgstr "Abstimmungen"
+
+#: classes/Data/PostTypeVoting.php:29
+msgid "Add voting"
+msgstr "Abstimmung hinzufügen"
+
+#: classes/Data/PostTypeVoting.php:30
+msgid "New voting"
+msgstr "Neue Abstimmung"
+
+#: classes/Data/PostTypeVoting.php:56
+msgid "Adds custom post type community voting"
+msgstr "Fügt benutzerdefinierten Post-Typ Community-Voting hinzu"
+
+#: classes/Menu.php:18 classes/Menu.php:19
+msgid "Participations"
+msgstr "Beteiligungen"
+
+#. Plugin Name of the plugin/theme
+msgid "Community participation"
+msgstr "Beteiligung der Gemeinschaft"
+
+#. Description of the plugin/theme
+msgid "Let community participate in the content creation"
+msgstr "Lasse die Gemeinschaft an der Erstellung von Inhalten teilnehmen"
+
+#. Author of the plugin/theme
+msgid "PALASTHOTEL by Edward"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.palasthotel.de"
+msgstr ""
+
+#~ msgid "Inspiration"
+#~ msgstr "Inspiration"
