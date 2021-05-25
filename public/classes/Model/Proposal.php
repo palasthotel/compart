@@ -13,6 +13,13 @@ class Proposal {
 	const STATUS_ACCEPTED = "accepted";
 	const STATUS_FINISHED = "finished";
 
+	const STATUSES = [
+		Proposal::STATUS_WAITING,
+		Proposal::STATUS_ACCEPTED,
+		Proposal::STATUS_FINISHED,
+		Proposal::STATUS_REJECTED
+	];
+
 	var $id;
 	var $text;
 	var $userId;

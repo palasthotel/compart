@@ -6,6 +6,7 @@ namespace Palasthotel\WordPress\CommunityParticipation;
 
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
+use Palasthotel\WordPress\CommunityParticipation\Utils\Validation;
 use WP_REST_Request;
 use WP_REST_Server;
 
@@ -50,13 +51,7 @@ class REST extends _Component {
 					'required'          => true,
 					'type'              => 'string',
 					'validate_callback' => function ( $value, $request ) {
-						return is_string( $value ) &&
-						       in_array( $value, [
-							       Proposal::STATUS_WAITING,
-							       Proposal::STATUS_ACCEPTED,
-							       Proposal::STATUS_FINISHED,
-							       Proposal::STATUS_REJECTED
-						       ] );
+						return Validation::isValidProposalState($value);
 					},
 					'sanitize_callback' => 'sanitize_textarea_field',
 				),

@@ -57,6 +57,18 @@ class Database extends \Palasthotel\WordPress\Database {
 	}
 
 	/**
+	 * @param int $id
+	 *
+	 * @return Proposal
+	 */
+	public function getProposal( $id ) {
+		$result =$this->wpdb->get_row(
+			$this->wpdb->prepare("SELECT * FROM $this->tableProposals WHERE id = %d", $id)
+		);
+		return $this->rowToProposal($result);
+	}
+
+	/**
 	 * @param ProposalQueryArgs $args
 	 *
 	 * @return Proposal[]
@@ -86,13 +98,18 @@ class Database extends \Palasthotel\WordPress\Database {
 
 		list($whereString, $whereValues) = DBHelper::buildProposalsWhere($args);
 
-		$sql = call_user_func_array(
-			[ $this->wpdb, 'prepare' ],
-			array_merge(
-				["SELECT COUNT(*) FROM $this->tableProposals $whereString"],
-				$whereValues
-			)
-		);
+		if(!empty($whereString)){
+			$sql = call_user_func_array(
+				[ $this->wpdb, 'prepare' ],
+				array_merge(
+					["SELECT COUNT(*) FROM $this->tableProposals $whereString"],
+					$whereValues
+				)
+			);
+		} else {
+			$sql = "SELECT COUNT(*) FROM $this->tableProposals";
+		}
+
 		$result = $this->wpdb->get_var($sql);
 		return intval($result);
 	}
@@ -186,4 +203,6 @@ class Database extends \Palasthotel\WordPress\Database {
 			key (modified_date)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
 	}
+
+
 }
