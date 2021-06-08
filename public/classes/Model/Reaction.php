@@ -4,9 +4,10 @@
 namespace Palasthotel\WordPress\CommunityParticipation\Model;
 
 
-class Vote {
+class Reaction {
 	var $id;
 	var $userId;
-	var $postId;
+	var $votingId;
+	var $proposalId;
 	var $type;
 }

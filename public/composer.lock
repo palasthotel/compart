@@ -4,48 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "63dc092132ab936f6ce662a747d24ce4",
-    "packages": [
-        {
-            "name": "palasthotel/wp-components",
-            "version": "0.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/palasthotel/wp-components.git",
-                "reference": "a4db3fb8ecf0f4b971cb9589b0b6dbec27bc8ae1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/palasthotel/wp-components/zipball/a4db3fb8ecf0f4b971cb9589b0b6dbec27bc8ae1",
-                "reference": "a4db3fb8ecf0f4b971cb9589b0b6dbec27bc8ae1",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Palasthotel\\WordPress\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Edward Bock",
-                    "email": "edward.bock@palasthotel.de",
-                    "homepage": "http://edwardbock.de",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Provide helper components for plugin and theme development",
-            "homepage": "https://palasthotel.de",
-            "support": {
-                "source": "https://github.com/palasthotel/wp-components/tree/0.0.9",
-                "issues": "https://github.com/palasthotel/wp-components/issues"
-            },
-            "time": "2021-05-12T06:51:24+00:00"
-        }
-    ],
+    "content-hash": "6ac4c7acb1cddb7de6593a96472823d8",
+    "packages": [],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",

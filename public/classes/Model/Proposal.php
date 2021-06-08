@@ -16,12 +16,13 @@ class Proposal {
 	const STATUSES = [
 		Proposal::STATUS_WAITING,
 		Proposal::STATUS_ACCEPTED,
-		Proposal::STATUS_FINISHED,
-		Proposal::STATUS_REJECTED
+		Proposal::STATUS_REJECTED,
+		Proposal::STATUS_FINISHED
 	];
 
 	var $id;
 	var $text;
+	var $summary;
 	var $userId;
 	var $status;
 	var $created;
@@ -29,5 +30,6 @@ class Proposal {
 
 	public function __construct() {
 		$this->created = new DateTime();
+		$this->summary = "";
 	}
 }

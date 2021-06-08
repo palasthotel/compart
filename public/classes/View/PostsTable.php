@@ -4,12 +4,10 @@
 namespace Palasthotel\WordPress\CommunityParticipation\View;
 
 
-use Palasthotel\WordPress\CommunityParticipation\_Component;
+use Palasthotel\WordPress\CommunityParticipation\Component\Component;
 
-class PostsTable extends _Component {
+class PostsTable extends Component {
 	public function onCreate() {
-		parent::onCreate();
-
 		add_action('init', function(){
 			add_filter(
 				"manage_".$this->plugin->postTypeVoting->getSlug()."_posts_columns" ,

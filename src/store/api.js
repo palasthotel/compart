@@ -6,7 +6,7 @@ export const createProposal = (text) => {
     return apiFetch({
         path: getApiPath("/proposals"),
         method: "POST",
-        data: { text },
+        data: {text},
     });
 }
 
@@ -14,7 +14,7 @@ export const updateProposalStatus = (id, status) => {
     return apiFetch({
         path: getApiPath(`/proposals/${id}`),
         method: "PATCH",
-        data: { status },
+        data: {status},
     });
 }
 
@@ -40,4 +40,25 @@ export const queryProposals = (
         query.push(`user_id=${user_id}`);
     }
     return apiFetch({path: getApiPath(`/proposals?${query.join("&")}`)});
+}
+
+export const queryVoting = (votingId) => {
+    return apiFetch({
+        path: getApiPath(`/votings/${votingId}`),
+        method: "GET",
+    })
+}
+
+export const voteForProposal = (votingId, proposalId, reaction) => {
+    return apiFetch({
+        path: getApiPath(`/votings/${votingId}?proposal_id=${proposalId}&reaction=${reaction}`),
+        method: "POST",
+    });
+}
+
+export const unvoteForProposal = (votingId, proposalId) => {
+    return apiFetch({
+        path: getApiPath(`/votings/${votingId}?proposal_id=${proposalId}`),
+        method: "DELETE",
+    });
 }

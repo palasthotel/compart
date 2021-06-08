@@ -4,13 +4,12 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite75881286aa535560705831ab5952f86
+class ComposerStaticInit28784d497a3948657887374bf15e4b92
 {
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
             'Palasthotel\\WordPress\\CommunityParticipation\\' => 45,
-            'Palasthotel\\WordPress\\' => 22,
         ),
     );
 
@@ -18,10 +17,6 @@ class ComposerStaticInite75881286aa535560705831ab5952f86
         'Palasthotel\\WordPress\\CommunityParticipation\\' => 
         array (
             0 => __DIR__ . '/../..' . '/classes',
-        ),
-        'Palasthotel\\WordPress\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/palasthotel/wp-components/src',
         ),
     );
 
@@ -32,9 +27,9 @@ class ComposerStaticInite75881286aa535560705831ab5952f86
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite75881286aa535560705831ab5952f86::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite75881286aa535560705831ab5952f86::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite75881286aa535560705831ab5952f86::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit28784d497a3948657887374bf15e4b92::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit28784d497a3948657887374bf15e4b92::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit28784d497a3948657887374bf15e4b92::$classMap;
 
         }, null, ClassLoader::class);
     }

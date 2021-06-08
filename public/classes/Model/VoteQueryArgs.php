@@ -5,6 +5,7 @@ namespace Palasthotel\WordPress\CommunityParticipation\Model;
 
 
 class VoteQueryArgs {
-	var $postId;
+	var $votingId;
+	var $userId;
 	var $type;
 }

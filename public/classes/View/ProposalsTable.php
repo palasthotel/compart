@@ -40,10 +40,19 @@ class ProposalsTable extends \WP_List_Table {
 				echo $item->id;
 				break;
 			case "proposal":
-				echo "<textarea rows='3' style='width: 100%' readonly>";
-				echo $item->text;
-				echo "</textarea>";
+				echo "<strong>";
+				if(empty($item->summary)){
+					echo "Not summarized yet ✏️";
+				} else {
+					echo $item->summary;
+				}
+				echo "</strong>";
+				echo "<br/>";
+				$previewCount = 100;
+				echo nl2br(substr($item->text, 0 , $previewCount));
+				if(strlen($item->text)>100) echo "...";
 				$adminUrl = admin_url("admin.php?page=".MenuProposals::SLUG."&proposal_id=$item->id");
+				echo "<br/>";
 				echo "<a href='$adminUrl'>Edit</a>";
 				break;
 			case "user_id":
@@ -79,7 +88,7 @@ class ProposalsTable extends \WP_List_Table {
 	}
 
 	private function get_hidden_columns(){
-		return ["id"];
+		return [];
 	}
 
 	public function prepare_items() {

@@ -4,18 +4,17 @@
 namespace Palasthotel\WordPress\CommunityParticipation\View;
 
 
-use Palasthotel\WordPress\CommunityParticipation\_Component;
+use Palasthotel\WordPress\CommunityParticipation\Component\Component;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 
 /**
  * @property MenuProposals proposals
  */
-class Menu extends _Component {
+class Menu extends Component {
 
 	const SLUG = "community-participation";
 
 	public function onCreate() {
-		parent::onCreate();
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		$this->proposals = new MenuProposals($this->plugin);
 	}

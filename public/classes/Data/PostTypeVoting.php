@@ -4,17 +4,28 @@
 namespace Palasthotel\WordPress\CommunityParticipation\Data;
 
 
-use Palasthotel\WordPress\CommunityParticipation\_Component;
-use Palasthotel\WordPress\CommunityParticipation\View\Menu;
+use Palasthotel\WordPress\CommunityParticipation\Component\Component;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
+use Palasthotel\WordPress\CommunityParticipation\View\Menu;
+use Palasthotel\WordPress\CommunityParticipation\View\VotingMetaBox;
+use Palasthotel\WordPress\CommunityParticipation\View\VotingPostContentView;
 
-class PostTypeVoting extends _Component {
+/**
+ * @property VotingMetaBox metaBox
+ * @property VotingPostContentView postContent
+ */
+class PostTypeVoting extends Component {
 
 	const SLUG = "community-voting";
 
 	public function onCreate() {
-		parent::onCreate();
 		add_action( 'init', array( $this, 'init' ) );
+		$this->metaBox = new VotingMetaBox($this->plugin);
+		$this->postContent = new VotingPostContentView($this->plugin);
+	}
+
+	public function getSlug() {
+		return apply_filters( Plugin::FILTER_CPT_COMMUNITY_VOTING_SLUG, self::SLUG );
 	}
 
 	public function init() {
@@ -73,7 +84,4 @@ class PostTypeVoting extends _Component {
 		register_post_type( $this->getSlug(), $args );
 	}
 
-	public function getSlug() {
-		return apply_filters( Plugin::FILTER_CPT_COMMUNITY_VOTING_SLUG, self::SLUG );
-	}
 }

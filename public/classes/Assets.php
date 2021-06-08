@@ -4,14 +4,31 @@
 namespace Palasthotel\WordPress\CommunityParticipation;
 
 
-class Assets extends \Palasthotel\WordPress\Assets {
+class Assets extends Component\Assets {
 
-	public function onPublicEnqueue( string $hook ) {
+	public function onPublicEnqueue( string $hook  ) {
+
+		// -----------------------------------
+		// enqueue public api
+		// -----------------------------------
 		$this->registerScript(
-			Plugin::HANDLE_PROPOSALS_PUBLIC_JS,
-			"dist/public.js"
+			Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS,
+			"dist/public-api.js"
 		);
-		$this->localize(Plugin::HANDLE_PROPOSALS_PUBLIC_JS);
+		$this->localize(Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS);
+
+		// -----------------------------------
+		// enqueue app js for default ui interactions
+		// -----------------------------------
+		$this->registerScript(
+			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS,
+			"dist/public-app.js",
+			["jquery", Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS]
+		);
+
+		if(!is_admin() && is_singular($this->plugin->postTypeVoting->getSlug())){
+			wp_enqueue_script(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS);
+		}
 	}
 
 	function onAdminEnqueue( string $hook ) {
@@ -19,11 +36,16 @@ class Assets extends \Palasthotel\WordPress\Assets {
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			"dist/admin.js"
 		);
-		$this->localize(Plugin::HANDLE_PROPOSALS_ADMIN_JS);
+		$this->registerStyle(
+			Plugin::HANDLE_PROPOSALS_ADMIN_STYLE,
+			"dist/admin.css"
+		);
+		wp_enqueue_style(Plugin::HANDLE_PROPOSALS_ADMIN_STYLE);
 	}
-	private function localize($handle, $additional = []){
+
+	public function localize($handle, $additional = []){
 		wp_localize_script(
-			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
+			$handle,
 			"Compart",
 			array_merge(
 				$additional,

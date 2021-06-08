@@ -1,11 +1,16 @@
 import React from 'react';
+import './ProposalListItem.scss';
 
-const ProposalsListItem = ({id, user, text, status}) => {
+const ProposalsListItem = (props) => {
+    const {
+        user, summary, canMoveUp, canMoveDown,
+        onMoveDown, onMoveUp
+    } = props;
     const email  = user && user.email ? user.email : "";
-    return <li>
-        <label>{id}: {email} {status}<br/>
-            <textarea readOnly={true} value={text} />
-        </label>
+    return <li className="proposal-list-item">
+        {canMoveUp && <button onClick={onMoveUp}>Up</button>}
+        <div>{summary}</div>
+        {canMoveDown && <button onClick={onMoveDown}>Down</button>}
     </li>;
 }
 
