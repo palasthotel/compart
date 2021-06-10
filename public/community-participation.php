@@ -32,12 +32,14 @@ require_once dirname( __FILE__ ) . "/vendor/autoload.php";
  * @property Assets assets
  * @property REST rest
  * @property Templates templates
+ * @property Gutenberg gutenberg
  */
 class Plugin extends Component\Plugin {
 
 	const DOMAIN = "compart";
 
 	const THEME = "plugin-parts";
+	const TEMPLATE_USER_PROPOSAL_FORM = "compart-user-proposal-form.php";
 	const TEMPLATE_VOTING = "compart-voting.php";
 	const FILTER_ADD_TEMPLATE_PATHS = "compart_add_template_paths";
 
@@ -48,6 +50,8 @@ class Plugin extends Component\Plugin {
 	const HANDLE_PROPOSALS_ADMIN_STYLE = "compart-admin-style";
 	const HANDLE_PROPOSALS_PUBLIC_API_JS = "compart-public-api-js";
 	const HANDLE_PROPOSALS_PUBLIC_APP_JS = "compart-public-app-js";
+	const HANDLE_GUTENBERG_JS = "compart-gutenberg-js";
+	const HANDLE_GUTENBERG_STYLE = "compart-gutenberg-css";
 
 	function onCreate() {
 
@@ -66,6 +70,7 @@ class Plugin extends Component\Plugin {
 		$this->postTypeVoting = new PostTypeVoting( $this );
 		$this->menu           = new Menu( $this );
 		$this->postsTable     = new PostsTable( $this );
+		$this->gutenberg = new Gutenberg($this);
 
 		$this->rest = new REST( $this );
 
@@ -83,3 +88,5 @@ class Plugin extends Component\Plugin {
 }
 
 Plugin::instance();
+
+require_once dirname(__FILE__)."/public-functions.php";

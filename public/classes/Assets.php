@@ -6,10 +6,9 @@ namespace Palasthotel\WordPress\CommunityParticipation;
 
 class Assets extends Component\Assets {
 
-	public function onPublicEnqueue( string $hook  ) {
-
+	public function register() {
 		// -----------------------------------
-		// enqueue public api
+		// register public api
 		// -----------------------------------
 		$this->registerScript(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS,
@@ -18,20 +17,19 @@ class Assets extends Component\Assets {
 		$this->localize(Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS);
 
 		// -----------------------------------
-		// enqueue app js for default ui interactions
+		// register app js for default ui interactions
 		// -----------------------------------
 		$this->registerScript(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS,
 			"dist/public-app.js",
 			["jquery", Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS]
 		);
-
-		if(!is_admin() && is_singular($this->plugin->postTypeVoting->getSlug())){
-			wp_enqueue_script(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS);
-		}
 	}
 
-	function onAdminEnqueue( string $hook ) {
+	public function registerAdmin() {
+		// -----------------------------------
+		// register admin
+		// -----------------------------------
 		$this->registerScript(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			"dist/admin.js"
@@ -40,7 +38,34 @@ class Assets extends Component\Assets {
 			Plugin::HANDLE_PROPOSALS_ADMIN_STYLE,
 			"dist/admin.css"
 		);
+
+		// -----------------------------------
+		// register gutenberg
+		// -----------------------------------
+		$this->registerScript(
+			Plugin::HANDLE_GUTENBERG_JS,
+			"dist/gutenberg.js"
+		);
+		$this->registerStyle(
+			Plugin::HANDLE_GUTENBERG_STYLE,
+			"dist/gutenberg.css"
+		);
+	}
+
+	public function onPublicEnqueue( string $hook  ) {
+		wp_enqueue_script(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS);
+	}
+
+
+	function onAdminEnqueue( string $hook ) {
 		wp_enqueue_style(Plugin::HANDLE_PROPOSALS_ADMIN_STYLE);
+
+		// -----------------------------------
+		// gutenberg
+		// -----------------------------------
+		if("post.php" === $hook){
+			wp_enqueue_style(Plugin::HANDLE_GUTENBERG_STYLE);
+		}
 	}
 
 	public function localize($handle, $additional = []){

@@ -5,13 +5,14 @@
   "private": true,
   "scripts": {
     "wp-scripts": "./node_modules/.bin/wp-scripts",
-    "watch": "wp-scripts start src/admin.js src/public-api.js src/public-app.js --output-path=public/dist",
-    "build": "wp-scripts build src/admin.js src/public-api.js src/public-app.js --output-path=public/dist"
+    "watch": "wp-scripts start src/admin.js src/public-api.js src/public-app.js src/gutenberg.js --output-path=public/dist",
+    "build": "wp-scripts build src/admin.js src/public-api.js src/public-app.js src/gutenberg.js --output-path=public/dist"
   },
   "author": "Edward Bock",
   "license": "ISC",
   "dependencies": {
     "@wordpress/api-fetch": "^5.1.1",
+    "@wordpress/blocks": "^9.1.3",
     "@wordpress/components": "^14.1.2",
     "@wordpress/dom-ready": "^3.1.1",
     "@wordpress/element": "^3.1.1",

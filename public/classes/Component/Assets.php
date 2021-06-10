@@ -12,12 +12,20 @@ abstract class Assets {
 
 	public function __construct( Plugin $plugin ) {
 		$this->plugin = $plugin;
+		add_action('init', [$this, 'register']);
+		add_action('admin_init', [$this, 'registerAdmin']);
 		add_action( 'wp_enqueue_scripts', function ( $hook ) {
 			$this->onEnqueue( false, $hook );
 		}, 1 );
 		add_action( 'admin_enqueue_scripts', function ( $hook ) {
 			$this->onEnqueue( true, $hook );
 		}, 1 );
+	}
+
+	public function register(){
+	}
+
+	public function registerAdmin(){
 	}
 
 	public function onEnqueue( bool $isAdmin, string $hook ) {
