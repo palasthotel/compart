@@ -3,43 +3,57 @@
 
 namespace Palasthotel\WordPress\CommunityParticipation;
 
+use Palasthotel\WordPress\CommunityParticipation\Components\Component;
 
-class Assets extends Component\Assets {
 
-	public function register() {
+/**
+ * @property Components\Assets utils
+ */
+class Assets extends Component {
+
+	public function onCreate() {
+		$this->utils = new Components\Assets( $this->plugin );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin' ] );
+	}
+
+	public function enqueue() {
 		// -----------------------------------
 		// register public api
 		// -----------------------------------
-		$this->registerScript(
+		$this->utils->registerScript(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS,
 			"dist/public-api.js"
 		);
-		$this->localize(Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS);
+		$this->localize( Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS );
 
 
 		// -----------------------------------
 		// register app js for default ui interactions
 		// -----------------------------------
-		$this->registerScript(
+		$this->utils->registerScript(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS,
 			"dist/public-app.js",
-			["jquery", Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS]
+			[ "jquery", Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS ]
 		);
-		$this->registerStyle(
+		$this->utils->registerStyle(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_STYLE,
 			"dist/public-app.css"
 		);
+
+		wp_enqueue_script( Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS );
+		wp_enqueue_style( Plugin::HANDLE_PROPOSALS_PUBLIC_APP_STYLE );
 	}
 
-	public function registerAdmin() {
+	public function enqueue_admin( string $hook ) {
 		// -----------------------------------
 		// register admin
 		// -----------------------------------
-		$this->registerScript(
+		$this->utils->registerScript(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			"dist/admin.js"
 		);
-		$this->registerStyle(
+		$this->utils->registerStyle(
 			Plugin::HANDLE_PROPOSALS_ADMIN_STYLE,
 			"dist/admin.css"
 		);
@@ -47,34 +61,26 @@ class Assets extends Component\Assets {
 		// -----------------------------------
 		// register gutenberg
 		// -----------------------------------
-		$this->registerScript(
+		$this->utils->registerScript(
 			Plugin::HANDLE_GUTENBERG_JS,
 			"dist/gutenberg.js"
 		);
-		$this->registerStyle(
+		$this->utils->registerStyle(
 			Plugin::HANDLE_GUTENBERG_STYLE,
 			"dist/gutenberg.css"
 		);
-	}
 
-	public function onPublicEnqueue( string $hook  ) {
-		wp_enqueue_script(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS);
-		wp_enqueue_style(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_STYLE);
-	}
-
-
-	function onAdminEnqueue( string $hook ) {
-		wp_enqueue_style(Plugin::HANDLE_PROPOSALS_ADMIN_STYLE);
+		wp_enqueue_style( Plugin::HANDLE_PROPOSALS_ADMIN_STYLE );
 
 		// -----------------------------------
 		// gutenberg
 		// -----------------------------------
-		if("post.php" === $hook){
-			wp_enqueue_style(Plugin::HANDLE_GUTENBERG_STYLE);
+		if ( "post.php" === $hook ) {
+			wp_enqueue_style( Plugin::HANDLE_GUTENBERG_STYLE );
 		}
 	}
 
-	public function localize($handle, $additional = []){
+	public function localize( $handle, $additional = [] ) {
 		wp_localize_script(
 			$handle,
 			"Compart",

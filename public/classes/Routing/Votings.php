@@ -35,20 +35,6 @@ class Votings {
 					return abs( intval( $value ) );
 				}
 			),
-			"voting_id"   => array(
-				'required'          => true,
-				'validate_callback' => function ( $value ) {
-					if ( ! is_numeric( $value ) ) {
-						return false;
-					}
-					$proposal = $this->plugin->database->getProposal( $value );
-
-					return $proposal instanceof Proposal;
-				},
-				'sanitize_callback' => function ( $value ) {
-					return abs( intval( $value ) );
-				}
-			),
 			"reaction"    => array(
 				'required'          => true,
 				'type'              => 'string',
@@ -101,7 +87,6 @@ class Votings {
 		return is_array( $votingReactions ) ? array_map( function ( $reaction ) use ( $userId ) {
 			return $reaction->userId === $userId ? $reaction : [
 				"id"         => $reaction->id,
-				"votingId"   => $reaction->votingId,
 				"proposalId" => $reaction->proposalId,
 				"type"       => $reaction->type
 			];

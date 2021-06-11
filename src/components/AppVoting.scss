@@ -1,0 +1,18 @@
+.app-voting{
+  .app-voting__changed-status{
+    opacity: 0;
+  }
+  &.is-changed .app-voting__changed-status {
+    opacity: 1;
+  }
+}
+
+.app-voting__content {
+  padding: 20px 40px;
+}
+
+.app-voting__changed-status {
+  padding: 4px;
+  color: green;
+  text-align: center;
+}

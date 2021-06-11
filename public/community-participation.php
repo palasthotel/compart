@@ -2,8 +2,7 @@
 
 namespace Palasthotel\WordPress\CommunityParticipation;
 
-use Palasthotel\WordPress\CommunityParticipation\Component\Templates;
-use Palasthotel\WordPress\CommunityParticipation\Component\TextdomainConfig;
+use Palasthotel\WordPress\CommunityParticipation\Components\Templates;
 use Palasthotel\WordPress\CommunityParticipation\Data\Database;
 use Palasthotel\WordPress\CommunityParticipation\Data\PostTypeVoting;
 use Palasthotel\WordPress\CommunityParticipation\View\Menu;
@@ -34,9 +33,11 @@ require_once dirname( __FILE__ ) . "/vendor/autoload.php";
  * @property Templates templates
  * @property Gutenberg gutenberg
  */
-class Plugin extends Component\Plugin {
+class Plugin extends Components\Plugin {
 
 	const DOMAIN = "compart";
+
+	const POST_META_STATUS = "voting_status";
 
 	const THEME = "plugin-parts";
 	const TEMPLATE_USER_PROPOSAL_FORM = "compart-user-proposal-form.php";
@@ -56,10 +57,7 @@ class Plugin extends Component\Plugin {
 
 	function onCreate() {
 
-		$this->textdomainConfig = new TextdomainConfig(
-			Plugin::DOMAIN,
-			"languages"
-		);
+		$this->loadTextdomain( Plugin::DOMAIN, "languages" );
 
 		$this->templates = new Templates( $this );
 		$this->templates->useThemeDirectory( self::THEME );
@@ -71,7 +69,7 @@ class Plugin extends Component\Plugin {
 		$this->postTypeVoting = new PostTypeVoting( $this );
 		$this->menu           = new Menu( $this );
 		$this->postsTable     = new PostsTable( $this );
-		$this->gutenberg = new Gutenberg($this);
+		$this->gutenberg      = new Gutenberg( $this );
 
 		$this->rest = new REST( $this );
 
@@ -90,4 +88,4 @@ class Plugin extends Component\Plugin {
 
 Plugin::instance();
 
-require_once dirname(__FILE__)."/public-functions.php";
+require_once dirname( __FILE__ ) . "/public-functions.php";

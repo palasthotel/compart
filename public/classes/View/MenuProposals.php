@@ -4,7 +4,7 @@
 namespace Palasthotel\WordPress\CommunityParticipation\View;
 
 
-use Palasthotel\WordPress\CommunityParticipation\Component\Component;
+use Palasthotel\WordPress\CommunityParticipation\Components\Component;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 

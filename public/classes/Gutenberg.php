@@ -5,9 +5,8 @@ namespace Palasthotel\WordPress\CommunityParticipation;
 
 
 use Palasthotel\WordPress\CommunityParticipation\BlockX\UserProposalForm;
-use Palasthotel\WordPress\CommunityParticipation\Component\Component;
 
-class Gutenberg extends Component {
+class Gutenberg extends Components\Component {
 
 	function onCreate() {
 		add_action( 'enqueue_block_editor_assets', function () {

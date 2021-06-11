@@ -3,11 +3,11 @@
 
 namespace Palasthotel\WordPress\CommunityParticipation\View;
 
-
-use Palasthotel\WordPress\CommunityParticipation\Component\Component;
+use Palasthotel\WordPress\CommunityParticipation\Components\Component;
 use Palasthotel\WordPress\CommunityParticipation\Data\PostTypeVoting;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
+use Palasthotel\WordPress\CommunityParticipation\Model\Response\ConnectionsResponse;
 use Palasthotel\WordPress\CommunityParticipation\Model\VoteQueryArgs;
 use Palasthotel\WordPress\CommunityParticipation\Model\VotingProposal;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
@@ -19,7 +19,7 @@ class VotingMetaBox extends Component {
 			if ( $post_type === $this->plugin->postTypeVoting->getSlug() ) {
 				add_meta_box(
 					PostTypeVoting::SLUG,
-					__( 'Voting configuration', Plugin::DOMAIN ),
+					__( 'Voting', Plugin::DOMAIN ),
 					[ $this, 'render_meta_box' ],
 					$post_type,
 					"normal",
@@ -48,6 +48,8 @@ class VotingMetaBox extends Component {
 		$this->plugin->assets->localize(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			[
+				"voting_id" => get_the_ID(),
+				"status" => get_post_meta(get_the_ID(), Plugin::POST_META_STATUS, true),
 				"proposals" => array_map( function ( $proposal ) {
 					$user = get_userdata( $proposal->userId );
 
@@ -62,6 +64,10 @@ class VotingMetaBox extends Component {
 					return $proposal->id;
 				}, $this->plugin->database->getProposalsByVoting(get_the_ID())),
 				"reactions" => $this->plugin->database->queryVotingReactions($args),
+				"connections" => array_map(
+					function($connection){ return new ConnectionsResponse($connection);	},
+					$this->plugin->database->getConnectedPostConnections(get_the_ID())
+				),
 			]
 		);
 
@@ -78,9 +84,14 @@ class VotingMetaBox extends Component {
 		if ( ! isset( $_POST["voting_proposal_form"] ) || "true" !== $_POST["voting_proposal_form"] ) {
 			return;
 		}
+		if ( ! isset( $_POST["voting_status"] ) || ! is_string( $_POST["voting_status"] ) ) {
+			return;
+		}
 		if ( ! isset( $_POST["voting_proposals"] ) || ! is_array( $_POST["voting_proposals"] ) ) {
 			return;
 		}
+
+		update_post_meta($post_id, Plugin::POST_META_STATUS, sanitize_text_field($_POST["voting_status"]));
 
 		$arr = [];
 		foreach ($_POST["voting_proposals"]  as $id){

@@ -4,7 +4,7 @@
 namespace Palasthotel\WordPress\CommunityParticipation\Data;
 
 
-use Palasthotel\WordPress\CommunityParticipation\Component\Component;
+use Palasthotel\WordPress\CommunityParticipation\Components\Component;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 use Palasthotel\WordPress\CommunityParticipation\View\Menu;
 use Palasthotel\WordPress\CommunityParticipation\View\VotingMetaBox;

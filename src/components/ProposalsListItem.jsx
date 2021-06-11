@@ -1,17 +1,17 @@
 import React from 'react';
 import './ProposalListItem.scss';
 
-const ProposalsListItem = (props) => {
+export const ProposalsListItemStats = (props) => {
     const {
-        user, summary, reactions, percentage,
-        canMoveUp, canMoveDown,
-        onMoveDown, onMoveUp
+        user,
+        summary,
+        reactions,
+        percentage,
     } = props;
     const email  = user && user.email ? user.email : "";
     console.debug("compart", percentage, reactions);
     const readablePercentage = `${Math.round(percentage*100)}%`
     return <li className="proposal-list-item">
-        {canMoveUp && <button onClick={onMoveUp}>Up</button>}
         <div>{summary}</div>
         <div className="proposal__percentage-wrapper">
             <div className="proposal__percentage-counter">{readablePercentage}</div>
@@ -19,8 +19,25 @@ const ProposalsListItem = (props) => {
                 width: readablePercentage,
             }} />
         </div>
-        {canMoveDown && <button onClick={onMoveDown}>Down</button>}
     </li>;
 }
 
-export default ProposalsListItem;
+export const ProposalListItemDraft = (props)=>{
+    const {
+        summary,
+        canMoveUp, canMoveDown,
+        onMoveDown, onMoveUp
+    } = props;
+
+    return <li className="proposal-list-item">
+        {canMoveUp && <button onClick={(e)=>{
+            e.preventDefault();
+            onMoveUp();
+        }}>Up</button>}
+        <div>{summary}</div>
+        {canMoveDown && <button onClick={(e)=>{
+            e.preventDefault();
+            onMoveDown();
+        }}>Down</button>}
+    </li>;
+}

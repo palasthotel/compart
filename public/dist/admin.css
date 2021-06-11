@@ -1,33 +1,3 @@
-.proposal-list-item {
-  font-size: 1.2rem;
-  padding: 10px 0;
-}
-.proposal-list-item + .proposal-list-item {
-  border-top: 1px solid #efefef;
-}
-
-.proposal__percentage-wrapper {
-  position: relative;
-  height: 4px;
-  width: 100%;
-  background: #e3e3e3;
-  margin-bottom: 10px;
-  padding-top: 24px;
-}
-.proposal__percentage-wrapper .proposal__percentage-counter {
-  position: absolute;
-  top: 4px;
-  left: 8px;
-  font-size: 0.9rem;
-  color: #2271b1;
-}
-.proposal__percentage-wrapper .proposal__percentage-bar {
-  position: absolute;
-  background: #2271b1;
-  bottom: 1px;
-  left: 1px;
-  width: 1px;
-  height: 2px;
-}
-
-/*# sourceMappingURL=admin.css.map*/
+.proposal-list-item{font-size:1.2rem;padding:10px 0}.proposal-list-item+.proposal-list-item{border-top:1px solid #efefef}.proposal__percentage-wrapper{position:relative;height:4px;width:100%;background:#e3e3e3;margin-bottom:10px;padding-top:24px}.proposal__percentage-wrapper .proposal__percentage-counter{position:absolute;top:4px;left:8px;font-size:.9rem;color:#2271b1}.proposal__percentage-wrapper .proposal__percentage-bar{position:absolute;background:#2271b1;bottom:1px;left:1px;width:1px;height:2px}
+.app-voting .app-voting__changed-status{opacity:0}.app-voting.is-changed .app-voting__changed-status{opacity:1}.app-voting__content{padding:20px 40px}.app-voting__changed-status{padding:4px;color:green;text-align:center}
+.voting-steps{display:flex;justify-content:space-around}.voting-step__item{flex-grow:1;cursor:pointer;padding:10px;font-size:1.2rem;border-bottom:4px solid #999;text-align:center;margin:0 20px}.voting-step__item.is-done{border-color:#2271b1}.voting-step__item.is-active{border-color:#2271b1;color:#2271b1;font-weight:bold}.voting-step__item.is-disabled{color:#666}

@@ -7,7 +7,7 @@ namespace Palasthotel\WordPress\CommunityParticipation\Utils;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
 use Palasthotel\WordPress\CommunityParticipation\Model\Reaction;
-use Palasthotel\WordPress\CommunityParticipation\Model\VotingProposal;
+use Palasthotel\WordPress\CommunityParticipation\Model\VotingPostConnection;
 
 class DatabaseUtils {
 
@@ -63,6 +63,20 @@ class DatabaseUtils {
 		$vote->type       = $row->reaction_type;
 
 		return $vote;
+	}
+
+	/**
+	 * @param $row
+	 *
+	 * @return Reaction
+	 */
+	public function rowToConnection( $row ): VotingPostConnection {
+		$item             = new VotingPostConnection();
+		$item->votingId   = $row->voting_id;
+		$item->proposalId = $row->proposal_id;
+		$item->postId     = $row->post_id;
+
+		return $item;
 	}
 
 }

@@ -1,0 +1,24 @@
+.voting-steps {
+  display:flex;
+  justify-content: space-around;
+}
+.voting-step__item {
+  flex-grow: 1;
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-bottom: 4px solid #999;
+  text-align: center;
+  margin: 0 20px;
+  &.is-done {
+    border-color: #2271b1;
+  }
+  &.is-active{
+    border-color: #2271b1;
+    color: #2271b1;
+    font-weight: bold;
+  }
+  &.is-disabled {
+    color: #666;
+  }
+}

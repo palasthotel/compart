@@ -3,8 +3,7 @@
 
 namespace Palasthotel\WordPress\CommunityParticipation\View;
 
-
-use Palasthotel\WordPress\CommunityParticipation\Component\Component;
+use Palasthotel\WordPress\CommunityParticipation\Components\Component;
 
 class PostsTable extends Component {
 	public function onCreate() {

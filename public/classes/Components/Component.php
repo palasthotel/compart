@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Palasthotel\WordPress\CommunityParticipation\Component;
+namespace Palasthotel\WordPress\CommunityParticipation\Components;
 
 /**
  * Class Component

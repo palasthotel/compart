@@ -5,8 +5,9 @@ namespace Palasthotel\WordPress\CommunityParticipation;
 
 use Palasthotel\WordPress\CommunityParticipation\Routing\Proposals;
 use Palasthotel\WordPress\CommunityParticipation\Routing\Votings;
+use Palasthotel\WordPress\CommunityParticipation\Routing\VotingToPost;
 
-class REST extends Component\Component {
+class REST extends Components\Component {
 
 	const NAMESPACE = "compart/v1";
 
@@ -17,6 +18,7 @@ class REST extends Component\Component {
 	public function rest_api_init() {
 		new Proposals($this);
 		new Votings($this);
+		new VotingToPost($this);
 	}
 
 }

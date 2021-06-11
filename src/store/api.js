@@ -62,3 +62,10 @@ export const unvoteForProposal = (votingId, proposalId) => {
         method: "DELETE",
     });
 }
+
+export const createPost = (votingId, proposalId) => {
+    return apiFetch({
+        path: getApiPath(`/votings/${votingId}/proposal/${proposalId}/create-post`),
+        method: "POST",
+    })
+}

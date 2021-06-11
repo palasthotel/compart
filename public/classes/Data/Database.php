@@ -3,11 +3,11 @@
 
 namespace Palasthotel\WordPress\CommunityParticipation\Data;
 
-use Palasthotel\WordPress\CommunityParticipation\Component\Component;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
 use Palasthotel\WordPress\CommunityParticipation\Model\Reaction;
 use Palasthotel\WordPress\CommunityParticipation\Model\VoteQueryArgs;
+use Palasthotel\WordPress\CommunityParticipation\Model\VotingPostConnection;
 use Palasthotel\WordPress\CommunityParticipation\Model\VotingProposal;
 use Palasthotel\WordPress\CommunityParticipation\Utils\DatabaseUtils;
 
@@ -15,8 +15,9 @@ use Palasthotel\WordPress\CommunityParticipation\Utils\DatabaseUtils;
  * @property string $tableProposals
  * @property string $tableReactions
  * @property string tableVotingProposals
+ * @property string tablePosts
  */
-class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\Database {
+class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\Database {
 
 	private DatabaseUtils $utils;
 
@@ -24,6 +25,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 		$this->tableProposals       = $this->wpdb->prefix . "compart_proposals";
 		$this->tableVotingProposals = $this->wpdb->prefix . "compart_voting_proposals";
 		$this->tableReactions       = $this->wpdb->prefix . "compart_reactions";
+		$this->tablePosts           = $this->wpdb->prefix . "compart_posts";
 		$this->utils                = new DatabaseUtils();
 	}
 
@@ -50,7 +52,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 				"summary"       => $proposal->summary,
 				"modified_date" => date( "Y-m-d H:i:s" ),
 			],
-			["id" => $proposal->id ],
+			[ "id" => $proposal->id ],
 			[ "%s", "%s", "%s", "%s" ],
 			[ "%d" ]
 		);
@@ -127,7 +129,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 	 *
 	 * @return Proposal[]
 	 */
-	public function getProposalsByVoting($votingId){
+	public function getProposalsByVoting( $votingId ) {
 		$result = $this->wpdb->get_results(
 			$this->wpdb->prepare(
 				"SELECT *, p.id as id FROM $this->tableProposals as p 
@@ -137,7 +139,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 			)
 		);
 
-		return array_map([$this->utils, 'rowToProposal'], $result);
+		return array_map( [ $this->utils, 'rowToProposal' ], $result );
 	}
 
 	/**
@@ -149,9 +151,9 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 			$this->wpdb->insert(
 				$this->tableVotingProposals,
 				[
-					"proposal_id" => $vp->proposalId,
-					"voting_id"   => $vp->votingId,
-					"proposal_position"    => $position ++,
+					"proposal_id"       => $vp->proposalId,
+					"voting_id"         => $vp->votingId,
+					"proposal_position" => $position ++,
 				],
 				[ "%d", "%d", "%d" ]
 			);
@@ -164,7 +166,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 		return $this->wpdb->delete(
 			$this->tableVotingProposals,
 			[
-				"voting_id"   => $votingId,
+				"voting_id" => $votingId,
 			],
 			[ "%d", "%d" ]
 		);
@@ -184,15 +186,15 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 		);
 	}
 
-	public function unsetVotingReaction($userId, $votingId, $proposalId){
+	public function unsetVotingReaction( $userId, $votingId, $proposalId ) {
 		$result = $this->wpdb->delete(
 			$this->tableReactions,
 			[
-				"user_id" => $userId,
+				"user_id"     => $userId,
 				"proposal_id" => $proposalId,
-				"voting_id" => $votingId
+				"voting_id"   => $votingId
 			],
-			[ "%d", "%d", "%d"]
+			[ "%d", "%d", "%d" ]
 		);
 
 		return $result;
@@ -213,13 +215,13 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 			$where[] = "voting_id = %d";
 			$arr[]   = $args->votingId;
 		}
-		if ( is_int($args->userId ) && $args->userId > 0 ) {
+		if ( is_int( $args->userId ) && $args->userId > 0 ) {
 			$where[] = "user_id = %d";
-			$arr[] = $args->userId;
+			$arr[]   = $args->userId;
 		}
 		if ( ! empty( $args->type ) ) {
 			$where[] = "reaction_type = %s";
-			$arr[] = $args->type;
+			$arr[]   = $args->type;
 		}
 
 		if ( count( $where ) > 0 ) {
@@ -228,9 +230,38 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
 
 		$sql = call_user_func_array( [ $this->wpdb, 'prepare' ], $arr );
 
-		$result = $this->wpdb->get_results($sql);
+		$result = $this->wpdb->get_results( $sql );
 
 		return array_map( [ $this->utils, 'rowToReaction' ], $result );
+	}
+
+	public function setPostConnection( VotingPostConnection $connection ) {
+		return $this->wpdb->insert(
+			$this->tablePosts,
+			[
+				"post_id"       => $connection->postId,
+				"voting_id"     => $connection->votingId,
+				"proposal_id"   => $connection->proposalId,
+				"created_date"  => date( "Y-m-d H:i:s" ),
+			],
+			[ "%d", "%d", "%d", "%s"]
+		);
+	}
+
+	/**
+	 * @param $votingId
+	 *
+	 * @return VotingPostConnection[]
+	 */
+	public function getConnectedPostConnections($votingId){
+		$result = $this->wpdb->get_results(
+			$this->wpdb->prepare(
+				"SELECT proposal_id, post_id, voting_id FROM $this->tablePosts WHERE voting_id = %s",
+				$votingId
+			)
+		);
+
+		return array_map([$this->utils, 'rowToConnection'], $result);
 	}
 
 
@@ -284,6 +315,20 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
     		key (reaction_type),
     		foreign key (voting_id) references $postsTable ( ID ) ON DELETE CASCADE,
     		foreign key (user_id) references $userTable ( ID ) ON DELETE CASCADE,
+    		foreign key (proposal_id) references $this->tableProposals ( id ) ON DELETE CASCADE
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
+
+		dbDelta( "CREATE TABLE IF NOT EXISTS $this->tablePosts (
+    		id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  			post_id bigint(20) unsigned NOT NULL,	
+    		proposal_id bigint(20) unsigned NOT NULL,
+  			voting_id bigint(20) unsigned NOT NULL,
+    		created_date TIMESTAMP NOT NULL,
+    		primary key (id),
+    		unique key (post_id),
+    		key (voting_id),
+		    foreign key (post_id) references $postsTable ( ID ) ON DELETE CASCADE,	
+		    foreign key (voting_id) references $postsTable ( ID ) ON DELETE CASCADE,
     		foreign key (proposal_id) references $this->tableProposals ( id ) ON DELETE CASCADE
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
 	}
