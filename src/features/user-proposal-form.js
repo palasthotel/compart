@@ -6,8 +6,6 @@ jQuery(($) => {
     const selectSuccess = "[data-compart-proposal-success]";
     const selectError = "[data-compart-proposal-error]";
 
-    $(`${selectSuccess}, ${selectError}`).hide();
-
     $("body").on("submit", `${selectComponent} form`, function (e) {
         e.preventDefault();
         const $form = $(this);

@@ -18,6 +18,7 @@ domReady(function () {
             <AppVoting
                 proposals={Compart.proposals}
                 selection={Compart.selection}
+                reactions={Compart.reactions}
             />,
             votingMetaBox,
         );

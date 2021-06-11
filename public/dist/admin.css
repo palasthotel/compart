@@ -1,1 +1,33 @@
-.proposal-list-item{font-size:1.2rem;padding:10px 0}.proposal-list-item+.proposal-list-item{border-top:1px solid #efefef}
+.proposal-list-item {
+  font-size: 1.2rem;
+  padding: 10px 0;
+}
+.proposal-list-item + .proposal-list-item {
+  border-top: 1px solid #efefef;
+}
+
+.proposal__percentage-wrapper {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  background: #e3e3e3;
+  margin-bottom: 10px;
+  padding-top: 24px;
+}
+.proposal__percentage-wrapper .proposal__percentage-counter {
+  position: absolute;
+  top: 4px;
+  left: 8px;
+  font-size: 0.9rem;
+  color: #2271b1;
+}
+.proposal__percentage-wrapper .proposal__percentage-bar {
+  position: absolute;
+  background: #2271b1;
+  bottom: 1px;
+  left: 1px;
+  width: 1px;
+  height: 2px;
+}
+
+/*# sourceMappingURL=admin.css.map*/

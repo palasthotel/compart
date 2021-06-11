@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/gutenberg.scss"],"names":[],"mappings":"AAAA;EACE;EACA;EACA;AACF,C","file":"gutenberg.css","sourcesContent":[".compart__user-proposal-form{\n  background: #efefef;\n  border: 1px solid #a2aab2;\n  padding: 20px;\n\n}"],"sourceRoot":""}

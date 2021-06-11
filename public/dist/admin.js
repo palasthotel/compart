@@ -1,1 +1,495 @@
-!function(e){var t={};function n(o){if(t[o])return t[o].exports;var r=t[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,n),r.l=!0,r.exports}n.m=e,n.c=t,n.d=function(e,t,o){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:o})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var o=Object.create(null);if(n.r(o),Object.defineProperty(o,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var r in e)n.d(o,r,function(t){return e[t]}.bind(null,r));return o},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=11)}([function(e,t){e.exports=window.wp.apiFetch},function(e,t){e.exports=window.wp.element},function(e,t,n){"use strict";n.r(t),n.d(t,"createProposal",(function(){return c})),n.d(t,"updateProposalStatus",(function(){return p})),n.d(t,"queryProposals",(function(){return u})),n.d(t,"queryVoting",(function(){return l})),n.d(t,"voteForProposal",(function(){return s})),n.d(t,"unvoteForProposal",(function(){return i}));var o=n(0),r=n.n(o);const a=e=>`${Compart.rest_namespace}${e}`,c=e=>r()({path:a("/proposals"),method:"POST",data:{text:e}}),p=(e,t)=>r()({path:a("/proposals/"+e),method:"PATCH",data:{status:t}}),u=({page:e=1,items_per_page:t=50,search:n="",user_id:o=0}={})=>{const c=[];return e&&c.push("page="+e),t&&c.push("items_per_page="+t),n.length&&c.push("search="+encodeURIComponent(n)),o&&c.push("user_id="+o),r()({path:a("/proposals?"+c.join("&"))})},l=e=>r()({path:a("/votings/"+e),method:"GET"}),s=(e,t,n)=>r()({path:a(`/votings/${e}?proposal_id=${t}&reaction=${n}`),method:"POST"}),i=(e,t)=>r()({path:a(`/votings/${e}?proposal_id=${t}`),method:"DELETE"})},function(e,t){e.exports=window.wp.domReady},function(e,t){e.exports=window.React},function(e,t){e.exports=window.ReactDOM},function(e,t){function n(){return e.exports=n=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o])}return e},e.exports.default=e.exports,e.exports.__esModule=!0,n.apply(this,arguments)}e.exports=n,e.exports.default=e.exports,e.exports.__esModule=!0},,,,,function(e,t,n){"use strict";n.r(t);var o=n(1),r=n(3),a=n.n(r),c=n(5),p=n(2),u=n(6),l=n.n(u);n(4);var s=({children:e})=>Object(o.createElement)("ul",null,e),i=e=>{const{user:t,summary:n,canMoveUp:r,canMoveDown:a,onMoveDown:c,onMoveUp:p}=e;return t&&t.email&&t.email,Object(o.createElement)("li",{className:"proposal-list-item"},r&&Object(o.createElement)("button",{onClick:p},"Up"),Object(o.createElement)("div",null,n),a&&Object(o.createElement)("button",{onClick:c},"Down"))},d=({proposals:e,selection:t=[]})=>{const[n,r]=Object(o.useState)(t),[a,c]=Object(o.useState)(0),p=(e,t)=>{const o=n[e],a=n[t],c=[...n];c[e]=a,c[t]=o,r(c)};return Object(o.createElement)("div",{className:"wrap"},Object(o.createElement)("select",{onChange:e=>{c(e.target.value)}},0===a&&Object(o.createElement)("option",null,"- Select proposal -"),e.filter(e=>!n.includes(e.id)).map(e=>Object(o.createElement)("option",{key:e.id,value:e.id},e.summary)))," ",Object(o.createElement)("button",{onClick:e=>{e.preventDefault(),a<=0||(r([...n,a]),c(0))}},"+"),Object(o.createElement)(s,null,n.map((t,r)=>{const a=e.find(e=>e.id===t);return a?Object(o.createElement)(i,l()({key:t},a,{canMoveUp:0!==r,canMoveDown:r<n.length-1,onMoveUp:()=>{p(r,r-1)},onMoveDown:()=>{p(r,r+1)}})):null})),Object(o.createElement)("input",{type:"hidden",name:"voting_proposal_form",value:"true"}),n.map(e=>Object(o.createElement)("input",{type:"hidden",name:"voting_proposals[]",value:e})))};a()((function(){var e;Compart.api=p,e=Compart,console.debug("Compart",e,void 0);const t=document.getElementById("compart-voting-meta-box");t&&Object(c.render)(Object(o.createElement)(d,{proposals:Compart.proposals,selection:Compart.selection}),t)}))}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/admin.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./node_modules/@babel/runtime/helpers/extends.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/extends.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _extends() {
+  module.exports = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  module.exports["default"] = module.exports, module.exports.__esModule = true;
+  return _extends.apply(this, arguments);
+}
+
+module.exports = _extends;
+module.exports["default"] = module.exports, module.exports.__esModule = true;
+
+/***/ }),
+
+/***/ "./src/admin.js":
+/*!**********************!*\
+  !*** ./src/admin.js ***!
+  \**********************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
+/* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _store_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/api */ "./src/store/api.js");
+/* harmony import */ var _components_AppVoting_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/AppVoting.jsx */ "./src/components/AppVoting.jsx");
+
+
+
+
+
+
+const debug = (msg, data = undefined) => console.debug("Compart", msg, data);
+
+_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_1___default()(function () {
+  Compart.api = _store_api__WEBPACK_IMPORTED_MODULE_3__;
+  debug(Compart);
+  const votingMetaBox = document.getElementById("compart-voting-meta-box");
+
+  if (votingMetaBox) {
+    Object(react_dom__WEBPACK_IMPORTED_MODULE_2__["render"])(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_AppVoting_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      proposals: Compart.proposals,
+      selection: Compart.selection,
+      reactions: Compart.reactions
+    }), votingMetaBox);
+  }
+});
+
+/***/ }),
+
+/***/ "./src/components/AppVoting.jsx":
+/*!**************************************!*\
+  !*** ./src/components/AppVoting.jsx ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_ProposalsList_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/ProposalsList.jsx */ "./src/components/ProposalsList.jsx");
+/* harmony import */ var _components_ProposalsListItem_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/ProposalsListItem.jsx */ "./src/components/ProposalsListItem.jsx");
+
+
+
+
+
+
+
+const AppVoting = props => {
+  const {
+    proposals,
+    selection = [],
+    reactions = []
+  } = props;
+  const [selectedIds, setSelectedIds] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(selection);
+  const [selectedId, setSelectedId] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["useState"])(0);
+
+  const handleSelection = e => {
+    setSelectedId(e.target.value);
+  };
+
+  const handleAddProposal = e => {
+    e.preventDefault();
+    if (selectedId <= 0) return;
+    setSelectedIds([...selectedIds, selectedId]);
+    setSelectedId(0);
+  };
+
+  const switchIds = (from, to) => {
+    const idFrom = selectedIds[from];
+    const idTo = selectedIds[to];
+    const newIds = [...selectedIds];
+    newIds[from] = idTo;
+    newIds[to] = idFrom;
+    setSelectedIds(newIds);
+  };
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("div", {
+    className: "wrap"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("select", {
+    onChange: handleSelection
+  }, selectedId === 0 && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("option", null, "- Select proposal -"), proposals.filter(p => !selectedIds.includes(p.id)).map(p => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("option", {
+    key: p.id,
+    value: p.id
+  }, p.summary))), " ", Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("button", {
+    onClick: handleAddProposal
+  }, "+"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_ProposalsList_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], null, selectedIds.map((id, idx) => {
+    const proposal = proposals.find(p => p.id === id);
+    if (!proposal) return null;
+    const proposalReactions = reactions.filter(r => r.proposalId === proposal.id);
+    const percentage = reactions.length > 0 ? proposalReactions.length / reactions.length : 0;
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])(_components_ProposalsListItem_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
+      key: id
+    }, proposal, {
+      reactions: proposalReactions,
+      percentage: percentage,
+      canMoveUp: idx !== 0,
+      canMoveDown: idx < selectedIds.length - 1,
+      onMoveUp: () => {
+        switchIds(idx, idx - 1);
+      },
+      onMoveDown: () => {
+        switchIds(idx, idx + 1);
+      }
+    }));
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("input", {
+    type: "hidden",
+    name: "voting_proposal_form",
+    value: "true"
+  }), selectedIds.map(s => Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["createElement"])("input", {
+    type: "hidden",
+    name: "voting_proposals[]",
+    value: s
+  })));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (AppVoting);
+
+/***/ }),
+
+/***/ "./src/components/ProposalListItem.scss":
+/*!**********************************************!*\
+  !*** ./src/components/ProposalListItem.scss ***!
+  \**********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/components/ProposalsList.jsx":
+/*!******************************************!*\
+  !*** ./src/components/ProposalsList.jsx ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const ProposalsList = ({
+  children
+}) => {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("ul", null, children);
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ProposalsList);
+
+/***/ }),
+
+/***/ "./src/components/ProposalsListItem.jsx":
+/*!**********************************************!*\
+  !*** ./src/components/ProposalsListItem.jsx ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ProposalListItem_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ProposalListItem.scss */ "./src/components/ProposalListItem.scss");
+
+
+
+
+const ProposalsListItem = props => {
+  const {
+    user,
+    summary,
+    reactions,
+    percentage,
+    canMoveUp,
+    canMoveDown,
+    onMoveDown,
+    onMoveUp
+  } = props;
+  const email = user && user.email ? user.email : "";
+  console.debug("compart", percentage, reactions);
+  const readablePercentage = `${Math.round(percentage * 100)}%`;
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("li", {
+    className: "proposal-list-item"
+  }, canMoveUp && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("button", {
+    onClick: onMoveUp
+  }, "Up"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, summary), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "proposal__percentage-wrapper"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "proposal__percentage-counter"
+  }, readablePercentage), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "proposal__percentage-bar",
+    style: {
+      width: readablePercentage
+    }
+  })), canMoveDown && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("button", {
+    onClick: onMoveDown
+  }, "Down"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ProposalsListItem);
+
+/***/ }),
+
+/***/ "./src/store/api.js":
+/*!**************************!*\
+  !*** ./src/store/api.js ***!
+  \**************************/
+/*! exports provided: createProposal, updateProposalStatus, queryProposals, queryVoting, voteForProposal, unvoteForProposal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createProposal", function() { return createProposal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateProposalStatus", function() { return updateProposalStatus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "queryProposals", function() { return queryProposals; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "queryVoting", function() { return queryVoting; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "voteForProposal", function() { return voteForProposal; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unvoteForProposal", function() { return unvoteForProposal; });
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0__);
+
+
+const getApiPath = path => `${Compart.rest_namespace}${path}`;
+
+const createProposal = text => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+    path: getApiPath("/proposals"),
+    method: "POST",
+    data: {
+      text
+    }
+  });
+};
+const updateProposalStatus = (id, status) => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+    path: getApiPath(`/proposals/${id}`),
+    method: "PATCH",
+    data: {
+      status
+    }
+  });
+};
+const queryProposals = ({
+  page = 1,
+  items_per_page = 50,
+  search = "",
+  user_id = 0
+} = {}) => {
+  const query = [];
+
+  if (page) {
+    query.push(`page=${page}`);
+  }
+
+  if (items_per_page) {
+    query.push(`items_per_page=${items_per_page}`);
+  }
+
+  if (search.length) {
+    query.push(`search=${encodeURIComponent(search)}`);
+  }
+
+  if (user_id) {
+    query.push(`user_id=${user_id}`);
+  }
+
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+    path: getApiPath(`/proposals?${query.join("&")}`)
+  });
+};
+const queryVoting = votingId => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+    path: getApiPath(`/votings/${votingId}`),
+    method: "GET"
+  });
+};
+const voteForProposal = (votingId, proposalId, reaction) => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+    path: getApiPath(`/votings/${votingId}?proposal_id=${proposalId}&reaction=${reaction}`),
+    method: "POST"
+  });
+};
+const unvoteForProposal = (votingId, proposalId) => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_0___default()({
+    path: getApiPath(`/votings/${votingId}?proposal_id=${proposalId}`),
+    method: "DELETE"
+  });
+};
+
+/***/ }),
+
+/***/ "@wordpress/api-fetch":
+/*!**********************************!*\
+  !*** external ["wp","apiFetch"] ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/dom-ready":
+/*!**********************************!*\
+  !*** external ["wp","domReady"] ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["domReady"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["React"]; }());
+
+/***/ }),
+
+/***/ "react-dom":
+/*!***************************!*\
+  !*** external "ReactDOM" ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["ReactDOM"]; }());
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=admin.js.map

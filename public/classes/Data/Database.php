@@ -280,7 +280,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Component\D
     		primary key (id),
     		key (user_id),
     		key (voting_id),
-    		unique key user_reaction_to_voting (user_id, voting_id, proposal_id),
+    		unique key user_reaction_to_voting (user_id, voting_id, reaction_type),
     		key (reaction_type),
     		foreign key (voting_id) references $postsTable ( ID ) ON DELETE CASCADE,
     		foreign key (user_id) references $userTable ( ID ) ON DELETE CASCADE,

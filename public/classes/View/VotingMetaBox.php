@@ -8,6 +8,7 @@ use Palasthotel\WordPress\CommunityParticipation\Component\Component;
 use Palasthotel\WordPress\CommunityParticipation\Data\PostTypeVoting;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
+use Palasthotel\WordPress\CommunityParticipation\Model\VoteQueryArgs;
 use Palasthotel\WordPress\CommunityParticipation\Model\VotingProposal;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 
@@ -42,6 +43,8 @@ class VotingMetaBox extends Component {
 		} );
 
 		wp_enqueue_script( Plugin::HANDLE_PROPOSALS_ADMIN_JS );
+		$args = new VoteQueryArgs();
+		$args->votingId = get_the_ID();
 		$this->plugin->assets->localize(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			[
@@ -58,6 +61,7 @@ class VotingMetaBox extends Component {
 				"selection" => array_map(function($proposal){
 					return $proposal->id;
 				}, $this->plugin->database->getProposalsByVoting(get_the_ID())),
+				"reactions" => $this->plugin->database->queryVotingReactions($args),
 			]
 		);
 

@@ -36,8 +36,8 @@ jQuery(($) => {
         const myReactions = await api.queryVoting(votingId);
         updateVotingState($voting, myReactions.map(r => r.proposalId));
 
-        $voting.on("click", "[data-proposal-id]", async (e) => {
-            const $el = $(e.target);
+        $voting.on("click", "[data-proposal-id]", async function(e){
+            const $el = $(this);
             const proposalId = getProposalId($el);
             const _isVoted = isVoted($el);
             if (_isVoted) {

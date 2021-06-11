@@ -3,7 +3,9 @@ import ProposalsList from "../components/ProposalsList.jsx";
 import ProposalsListItem from "../components/ProposalsListItem.jsx";
 import {useState} from "@wordpress/element";
 
-const AppVoting = ({proposals, selection = []})=>{
+const AppVoting = (props)=>{
+
+    const {proposals, selection = [], reactions = []} = props;
 
     const [selectedIds, setSelectedIds] = useState(selection);
     const [selectedId, setSelectedId] = useState(0);
@@ -31,6 +33,8 @@ const AppVoting = ({proposals, selection = []})=>{
         setSelectedIds(newIds);
     }
 
+
+
     return <div className="wrap">
 
         <select onChange={handleSelection}>
@@ -42,9 +46,15 @@ const AppVoting = ({proposals, selection = []})=>{
             {selectedIds.map((id, idx)=>{
                 const proposal = proposals.find(p => p.id === id);
                 if(!proposal) return null;
+
+                const proposalReactions = reactions.filter(r=>r.proposalId === proposal.id);
+                const percentage = reactions.length > 0 ? proposalReactions.length/reactions.length : 0;
+
                 return <ProposalsListItem
                     key={id}
                     {...proposal}
+                    reactions={proposalReactions}
+                    percentage={percentage}
                     canMoveUp={idx !== 0}
                     canMoveDown={idx < selectedIds.length-1}
                     onMoveUp={()=>{

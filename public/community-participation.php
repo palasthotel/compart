@@ -50,6 +50,7 @@ class Plugin extends Component\Plugin {
 	const HANDLE_PROPOSALS_ADMIN_STYLE = "compart-admin-style";
 	const HANDLE_PROPOSALS_PUBLIC_API_JS = "compart-public-api-js";
 	const HANDLE_PROPOSALS_PUBLIC_APP_JS = "compart-public-app-js";
+	const HANDLE_PROPOSALS_PUBLIC_APP_STYLE = "compart-public-app-style";
 	const HANDLE_GUTENBERG_JS = "compart-gutenberg-js";
 	const HANDLE_GUTENBERG_STYLE = "compart-gutenberg-css";
 

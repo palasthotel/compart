@@ -16,6 +16,7 @@ class Assets extends Component\Assets {
 		);
 		$this->localize(Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS);
 
+
 		// -----------------------------------
 		// register app js for default ui interactions
 		// -----------------------------------
@@ -23,6 +24,10 @@ class Assets extends Component\Assets {
 			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS,
 			"dist/public-app.js",
 			["jquery", Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS]
+		);
+		$this->registerStyle(
+			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_STYLE,
+			"dist/public-app.css"
 		);
 	}
 
@@ -54,6 +59,7 @@ class Assets extends Component\Assets {
 
 	public function onPublicEnqueue( string $hook  ) {
 		wp_enqueue_script(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS);
+		wp_enqueue_style(Plugin::HANDLE_PROPOSALS_PUBLIC_APP_STYLE);
 	}
 
 
