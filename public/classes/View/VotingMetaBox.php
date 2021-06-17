@@ -44,34 +44,23 @@ class VotingMetaBox extends Component {
 		} );
 
 		wp_enqueue_script( Plugin::HANDLE_PROPOSALS_ADMIN_JS );
-		$args = new VoteQueryArgs();
+		$args           = new VoteQueryArgs();
 		$args->votingId = get_the_ID();
 
-		$connection = $this->plugin->database->getConnectedPostConnection(get_the_ID());
+		$connection         = $this->plugin->database->getConnectedPostConnection( get_the_ID() );
 		$connectionResponse = null;
-		if($connection instanceof VotingPostConnection){
-			$connectionResponse = new ConnectionsResponse($connection);
+		if ( $connection instanceof VotingPostConnection ) {
+			$connectionResponse = new ConnectionsResponse( $connection );
 		}
 
 		$this->plugin->assets->localize(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			[
-				"voting_id" => get_the_ID(),
-				"status" => get_post_meta(get_the_ID(), Plugin::POST_META_STATUS, true),
-				"proposals" => array_map( function ( $proposal ) {
-					$user = get_userdata( $proposal->userId );
-
-					return [
-						"id"      => $proposal->id,
-						"summary" => $proposal->summary,
-						"user_id" => $proposal->userId,
-						"user"    => $user,
-					];
-				}, $notEmptyItems ),
-				"selection" => array_map(function($proposal){
-					return $proposal->id;
-				}, $this->plugin->database->getProposalsByVoting(get_the_ID())),
-				"reactions" => $this->plugin->database->queryVotingReactions($args),
+				"voting_id"  => get_the_ID(),
+				"status"     => get_post_meta( get_the_ID(), Plugin::POST_META_STATUS, true ),
+				"proposals"  => $notEmptyItems,
+				"selection"  => $this->plugin->database->getProposalsByVoting( get_the_ID() ),
+				"reactions"  => $this->plugin->database->queryVotingReactions( $args ),
 				"connection" => $connectionResponse,
 			]
 		);
@@ -96,31 +85,31 @@ class VotingMetaBox extends Component {
 			return;
 		}
 
-		update_post_meta($post_id, Plugin::POST_META_STATUS, sanitize_text_field($_POST["voting_status"]));
+		update_post_meta( $post_id, Plugin::POST_META_STATUS, sanitize_text_field( $_POST["voting_status"] ) );
 
 		$arr = [];
-		foreach ($_POST["voting_proposals"]  as $id){
-			$arr[] = new VotingProposal(intval($id), intval($post_id));
+		foreach ( $_POST["voting_proposals"] as $id ) {
+			$arr[] = new VotingProposal( intval( $id ), intval( $post_id ) );
 		}
 
-		$this->plugin->database->removeVotingProposals($post_id);
-		$this->plugin->database->setVotingProposals($arr);
+		$this->plugin->database->removeVotingProposals( $post_id );
+		$this->plugin->database->setVotingProposals( $arr );
 
-		if( isset($_POST["voting_generate_post"]) && !empty($_POST["voting_generate_post"])){
-			$proposalId = intval($_POST["voting_generate_post"]);
-			$proposal = $this->plugin->database->getProposal($proposalId);
-			if($proposal instanceof Proposal){
-				$connection = new VotingPostConnection();
+		if ( isset( $_POST["voting_generate_post"] ) && ! empty( $_POST["voting_generate_post"] ) ) {
+			$proposalId = intval( $_POST["voting_generate_post"] );
+			$proposal   = $this->plugin->database->getProposal( $proposalId );
+			if ( $proposal instanceof Proposal ) {
+				$connection             = new VotingPostConnection();
 				$connection->proposalId = $proposalId;
-				$connection->votingId = $post_id;
-				$new_post_id = wp_insert_post([
-					"post_title" => $proposal->summary,
+				$connection->votingId   = $post_id;
+				$new_post_id            = wp_insert_post( [
+					"post_title"  => $proposal->summary,
 					"post_status" => "draft",
-				]);
+				] );
 
-				if($new_post_id){
+				if ( $new_post_id ) {
 					$connection->postId = $new_post_id;
-					$this->plugin->database->setPostConnection($connection);
+					$this->plugin->database->setPostConnection( $connection );
 				}
 			}
 		}

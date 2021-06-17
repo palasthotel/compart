@@ -63,7 +63,6 @@ export const NextStepFinishButton = (
 const VotingSteps = (
     {
         status,
-        onChange,
         canOpen = false,
         canFinish = false,
         isFinished = false
@@ -87,23 +86,16 @@ const VotingSteps = (
     return <div className="voting-steps">
         <div
             className={getLiClasses(draftStatus)}
-            onClick={()=> onChange(VOTING_STATUS.DRAFT)}
         >
             1. Preparation { status !== VOTING_STATUS.DRAFT ? "✅" : ""}
         </div>
         <div
             className={getLiClasses(openStatus)}
-            onClick={()=>{
-                if(canOpen) onChange(VOTING_STATUS.OPEN)
-            }}
         >
             2. Voting in progress { ![VOTING_STATUS.DRAFT, VOTING_STATUS.OPEN].includes(status) ? "✅" : ""}
         </div>
         <div
             className={getLiClasses(finishStatus)}
-            onClick={()=>{
-                if(canFinish) onChange(VOTING_STATUS.FINISHED)
-            }}
         >
             3. Finish { isFinished ? "✅" : ""}
         </div>

@@ -17,7 +17,7 @@ const findWinnerProposal = (proposals, reactions) => {
         }
     }
 
-   return proposals[winnerId];
+    return proposals.find(p=>parseInt(p.id)===parseInt(winnerId));
 }
 
 const WinnerInfo = ({
@@ -79,10 +79,8 @@ const VotingFinish = (
 
     const winner = findWinnerProposal(proposals, reactions);
 
-    console.debug(winner);
-
     return <div>
-        <WinnerInfo winner={winner} />
+        {winner && <WinnerInfo winner={winner} />}
 
         {!connection && <GeneratePostCheckbox
             winner={winner}

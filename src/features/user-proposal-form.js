@@ -48,14 +48,11 @@ jQuery(($) => {
     });
 
     const onResult = ($component, proposal) => (response) => {
-        console.debug("Compart", $component, $component.find("form"), response);
         $component.find("form").hide();
         if (!response.success) {
-            console.debug("Compart", "no success", response)
             $component.find(selectError).show();
             return;
         }
-        console.debug("Compart", "success", $component.find(selectPreview), $component.find(selectSuccess))
         $component.find(selectPreview).val(proposal);
         $component.find(selectSuccess).show();
     }

@@ -3,7 +3,6 @@ import ProposalsList from "./ProposalsList.jsx";
 import {ProposalListItemDraft, ProposalsListItemStats} from "./ProposalsListItem.jsx";
 import {useState} from "@wordpress/element";
 import RequiredFormFields from "./RequiredFormFields.jsx";
-import VotingToPostConnectionsList from "./VotingToPostConnectionsList.jsx";
 import ProposalSelector from "./ProposalSelector.jsx";
 import './AppVoting.scss';
 import {VOTING_STATUS} from "../store/constants";
@@ -22,12 +21,12 @@ const AppVoting = (
 ) => {
 
     const [status, setStatus] = useState(initStatus || VOTING_STATUS.OPEN);
-    const [selectionIds, setSelectionIds] = useState(initSelection || []);
+    const [selectionIds, setSelectionIds] = useState(initSelection.map(p=> p.id) || []);
     const [generatePost, setGeneratePost] = useState("");
 
     const isStatusChanged = status !== initStatus;
     const isSelectionChanged = initSelection.length !== selectionIds.length
-        || selectionIds.filter((sid, index) => sid !== initSelection[index]).length > 0;
+        || selectionIds.filter((sid, index) => sid !== initSelection[index].id).length > 0;
 
     const isChanged = isStatusChanged || isSelectionChanged;
 
@@ -44,6 +43,9 @@ const AppVoting = (
         setSelectionIds(selectionIds.filter(_id=>_id !== id));
     }
 
+
+    const allProposals = [...initSelection, ...proposals];
+
     const canOpen = selectionIds.length > 1;
     const canFinish = reactions.length > 1;
 
@@ -51,7 +53,6 @@ const AppVoting = (
 
         <VotingSteps
             status={status}
-            onChange={setStatus}
             canOpen={canOpen}
             canFinish={canFinish}
             isFinished={connection !== null}
@@ -66,9 +67,8 @@ const AppVoting = (
         />
 
         <div className="app-voting__content">
-
             {
-                status === VOTING_STATUS.DRAFT &&
+                initStatus === VOTING_STATUS.DRAFT &&
                 <ProposalSelector
                     proposals={proposals.filter(p => !selectionIds.includes(p.id))}
                     onAddProposal={(proposalId) => {
@@ -82,15 +82,20 @@ const AppVoting = (
 
             <ProposalsList>
                 {selectionIds.map((id, idx) => {
-                    const proposal = proposals.find(p => p.id === id);
-                    if (!proposal) return null;
+                    let proposal = allProposals.find(p => p.id === id);
+
+                    if(proposal === null){
+                        return null;
+                    }
+
                     switch (status) {
                         case VOTING_STATUS.DRAFT:
                             return <ProposalListItemDraft
                                 key={id}
                                 {...proposal}
-                                canMoveUp={idx !== 0}
-                                canMoveDown={idx < selectionIds.length - 1}
+                                canMoveUp={initStatus === VOTING_STATUS.DRAFT && idx !== 0}
+                                canMoveDown={initStatus === VOTING_STATUS.DRAFT && idx < selectionIds.length - 1}
+                                canDelete={initStatus === VOTING_STATUS.DRAFT}
                                 onMoveUp={() => {
                                     switchIds(idx, idx - 1);
                                 }}
@@ -116,16 +121,6 @@ const AppVoting = (
                 })}
             </ProposalsList>
 
-            { status === VOTING_STATUS.FINISHED && <VotingFinish
-                proposals={proposals}
-                reactions={reactions}
-                connection={connection}
-                generatePost={generatePost}
-                onChangeGeneratePost={(winnerIdOrEmptyString)=>{
-                    setGeneratePost(winnerIdOrEmptyString);
-                }}
-            /> }
-
             <NextStepOpenButton
                 status={status}
                 canOpen={canOpen}
@@ -142,6 +137,15 @@ const AppVoting = (
                 }}
             />
 
+            { status === VOTING_STATUS.FINISHED && <VotingFinish
+                proposals={allProposals}
+                reactions={reactions}
+                connection={connection}
+                generatePost={generatePost}
+                onChangeGeneratePost={(winnerIdOrEmptyString)=>{
+                    setGeneratePost(winnerIdOrEmptyString);
+                }}
+            /> }
 
         </div>
     </div>

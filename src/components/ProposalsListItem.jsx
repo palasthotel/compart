@@ -4,13 +4,9 @@ import './ProposalListItem.scss';
 
 export const ProposalsListItemStats = (props) => {
     const {
-        user,
         summary,
-        reactions,
         percentage,
     } = props;
-    const email  = user && user.email ? user.email : "";
-    console.debug("compart", percentage, reactions);
     const readablePercentage = `${Math.round(percentage*100)}%`
     return <li className="proposal-list-item  proposal-list-item__stats">
         <div>{summary}</div>
@@ -26,9 +22,8 @@ export const ProposalsListItemStats = (props) => {
 export const ProposalListItemDraft = (props)=>{
     const {
         summary,
-        canMoveUp, canMoveDown,
-        onMoveDown, onMoveUp,
-        onTrash,
+        canMoveUp, canMoveDown, canDelete,
+        onMoveDown, onMoveUp, onTrash,
     } = props;
 
     return <li className="proposal-list-item proposal-list-item__draft">
@@ -45,7 +40,7 @@ export const ProposalListItemDraft = (props)=>{
             e.preventDefault();
             onMoveDown();
         }}><Dashicon icon="arrow-down" /></button>}
-        <button
+        {canDelete && <button
             className="proposal-list-item__button proposal-list-item__button-trash"
             onClick={(e)=>{
                 e.preventDefault();
@@ -53,6 +48,6 @@ export const ProposalListItemDraft = (props)=>{
             }}
         >
             <Dashicon icon="trash" />
-        </button>
+        </button>}
     </li>;
 }
