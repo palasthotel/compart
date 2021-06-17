@@ -1,4 +1,5 @@
 import React from 'react';
+import {Dashicon} from "@wordpress/components";
 import './ProposalListItem.scss';
 
 export const ProposalsListItemStats = (props) => {
@@ -11,7 +12,7 @@ export const ProposalsListItemStats = (props) => {
     const email  = user && user.email ? user.email : "";
     console.debug("compart", percentage, reactions);
     const readablePercentage = `${Math.round(percentage*100)}%`
-    return <li className="proposal-list-item">
+    return <li className="proposal-list-item  proposal-list-item__stats">
         <div>{summary}</div>
         <div className="proposal__percentage-wrapper">
             <div className="proposal__percentage-counter">{readablePercentage}</div>
@@ -26,18 +27,32 @@ export const ProposalListItemDraft = (props)=>{
     const {
         summary,
         canMoveUp, canMoveDown,
-        onMoveDown, onMoveUp
+        onMoveDown, onMoveUp,
+        onTrash,
     } = props;
 
-    return <li className="proposal-list-item">
-        {canMoveUp && <button onClick={(e)=>{
+    return <li className="proposal-list-item proposal-list-item__draft">
+        {canMoveUp && <button
+            className="proposal-list-item__button proposal-list-item__button-up"
+            onClick={(e)=>{
             e.preventDefault();
             onMoveUp();
-        }}>Up</button>}
+        }}><Dashicon icon="arrow-up" /></button>}
         <div>{summary}</div>
-        {canMoveDown && <button onClick={(e)=>{
+        {canMoveDown && <button
+            className="proposal-list-item__button proposal-list-item__button-down"
+            onClick={(e)=>{
             e.preventDefault();
             onMoveDown();
-        }}>Down</button>}
+        }}><Dashicon icon="arrow-down" /></button>}
+        <button
+            className="proposal-list-item__button proposal-list-item__button-trash"
+            onClick={(e)=>{
+                e.preventDefault();
+                onTrash();
+            }}
+        >
+            <Dashicon icon="trash" />
+        </button>
     </li>;
 }

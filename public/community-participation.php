@@ -32,6 +32,7 @@ require_once dirname( __FILE__ ) . "/vendor/autoload.php";
  * @property REST rest
  * @property Templates templates
  * @property Gutenberg gutenberg
+ * @property Repository repo
  */
 class Plugin extends Components\Plugin {
 
@@ -41,6 +42,7 @@ class Plugin extends Components\Plugin {
 
 	const THEME = "plugin-parts";
 	const TEMPLATE_USER_PROPOSAL_FORM = "compart-user-proposal-form.php";
+	const TEMPLATE_USER_PROPOSALS_LIST = "compart-user-proposals-list.php";
 	const TEMPLATE_VOTING = "compart-voting.php";
 	const FILTER_ADD_TEMPLATE_PATHS = "compart_add_template_paths";
 
@@ -71,6 +73,7 @@ class Plugin extends Components\Plugin {
 		$this->postsTable     = new PostsTable( $this );
 		$this->gutenberg      = new Gutenberg( $this );
 
+		$this->repo = new Repository( $this );
 		$this->rest = new REST( $this );
 
 		if ( WP_DEBUG ) {

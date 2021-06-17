@@ -58,9 +58,11 @@ class Assets extends Component {
 			"dist/admin.css"
 		);
 
-		// -----------------------------------
-		// register gutenberg
-		// -----------------------------------
+		wp_enqueue_style( Plugin::HANDLE_PROPOSALS_ADMIN_STYLE );
+
+	}
+
+	public function enqueueGutenberg(){
 		$this->utils->registerScript(
 			Plugin::HANDLE_GUTENBERG_JS,
 			"dist/gutenberg.js"
@@ -69,15 +71,8 @@ class Assets extends Component {
 			Plugin::HANDLE_GUTENBERG_STYLE,
 			"dist/gutenberg.css"
 		);
-
-		wp_enqueue_style( Plugin::HANDLE_PROPOSALS_ADMIN_STYLE );
-
-		// -----------------------------------
-		// gutenberg
-		// -----------------------------------
-		if ( "post.php" === $hook ) {
-			wp_enqueue_style( Plugin::HANDLE_GUTENBERG_STYLE );
-		}
+		wp_enqueue_style( Plugin::HANDLE_GUTENBERG_STYLE );
+		wp_enqueue_script(Plugin::HANDLE_GUTENBERG_JS);
 	}
 
 	public function localize( $handle, $additional = [] ) {

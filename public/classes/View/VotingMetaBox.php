@@ -9,6 +9,7 @@ use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
 use Palasthotel\WordPress\CommunityParticipation\Model\Response\ConnectionsResponse;
 use Palasthotel\WordPress\CommunityParticipation\Model\VoteQueryArgs;
+use Palasthotel\WordPress\CommunityParticipation\Model\VotingPostConnection;
 use Palasthotel\WordPress\CommunityParticipation\Model\VotingProposal;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 
@@ -45,6 +46,13 @@ class VotingMetaBox extends Component {
 		wp_enqueue_script( Plugin::HANDLE_PROPOSALS_ADMIN_JS );
 		$args = new VoteQueryArgs();
 		$args->votingId = get_the_ID();
+
+		$connection = $this->plugin->database->getConnectedPostConnection(get_the_ID());
+		$connectionResponse = null;
+		if($connection instanceof VotingPostConnection){
+			$connectionResponse = new ConnectionsResponse($connection);
+		}
+
 		$this->plugin->assets->localize(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			[
@@ -64,14 +72,11 @@ class VotingMetaBox extends Component {
 					return $proposal->id;
 				}, $this->plugin->database->getProposalsByVoting(get_the_ID())),
 				"reactions" => $this->plugin->database->queryVotingReactions($args),
-				"connections" => array_map(
-					function($connection){ return new ConnectionsResponse($connection);	},
-					$this->plugin->database->getConnectedPostConnections(get_the_ID())
-				),
+				"connection" => $connectionResponse,
 			]
 		);
 
-		echo "<div id='compart-voting-meta-box'></div>";
+		echo "<div id='compart-voting-meta-box'>Configuration is loading...</div>";
 	}
 
 	public function save_post( $post_id ) {
@@ -100,6 +105,25 @@ class VotingMetaBox extends Component {
 
 		$this->plugin->database->removeVotingProposals($post_id);
 		$this->plugin->database->setVotingProposals($arr);
+
+		if( isset($_POST["voting_generate_post"]) && !empty($_POST["voting_generate_post"])){
+			$proposalId = intval($_POST["voting_generate_post"]);
+			$proposal = $this->plugin->database->getProposal($proposalId);
+			if($proposal instanceof Proposal){
+				$connection = new VotingPostConnection();
+				$connection->proposalId = $proposalId;
+				$connection->votingId = $post_id;
+				$new_post_id = wp_insert_post([
+					"post_title" => $proposal->summary,
+					"post_status" => "draft",
+				]);
+
+				if($new_post_id){
+					$connection->postId = $new_post_id;
+					$this->plugin->database->setPostConnection($connection);
+				}
+			}
+		}
 
 	}
 }

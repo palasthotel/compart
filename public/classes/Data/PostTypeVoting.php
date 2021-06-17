@@ -20,12 +20,21 @@ class PostTypeVoting extends Component {
 
 	public function onCreate() {
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'the_post', array( $this, 'the_post' ) );
 		$this->metaBox = new VotingMetaBox($this->plugin);
 		$this->postContent = new VotingPostContentView($this->plugin);
 	}
 
 	public function getSlug() {
 		return apply_filters( Plugin::FILTER_CPT_COMMUNITY_VOTING_SLUG, self::SLUG );
+	}
+
+	public function the_post(\WP_Post $post){
+		if($post->post_type === $this->getSlug()){
+			$post->votingPostConnection = $this->plugin->database->getConnectedPostConnection($post->ID);
+		} else {
+			$post->votingPostConnection = $this->plugin->database->getConnectedVotingConnection($post->ID);
+		}
 	}
 
 	public function init() {

@@ -21,7 +21,7 @@ domReady(function () {
                 proposals={Compart.proposals}
                 selection={Compart.selection}
                 reactions={Compart.reactions}
-                connections={Compart.connections}
+                connection={Compart.connection}
             />,
             votingMetaBox,
         );

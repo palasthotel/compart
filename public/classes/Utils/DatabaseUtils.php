@@ -42,6 +42,7 @@ class DatabaseUtils {
 		$model->userId   = $row->user_id;
 		$model->text     = $row->proposal;
 		$model->summary  = $row->summary;
+		$model->notes    = $row->notes;
 		$model->status   = $row->status;
 		$model->modified = $row->modified_date;
 		$model->created  = $row->created_date;

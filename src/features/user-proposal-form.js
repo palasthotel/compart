@@ -2,16 +2,31 @@ jQuery(($) => {
 
     const api = Compart.api;
 
-    const selectComponent = "[data-compart-user-proposal-form]";
+    const $body = $("body");
+    const selectComponent = "[data-compart-user-proposal-component]";
     const selectSuccess = "[data-compart-proposal-success]";
     const selectError = "[data-compart-proposal-error]";
+    const selectPreview = "[data-compart-proposal-preview]";
 
-    $("body").on("submit", `${selectComponent} form`, function (e) {
+    const isSubmitting = ($component, isSubmitting) => {
+        if(typeof isSubmitting === "boolean"){
+            if(isSubmitting){
+                $component.attr("data-is-submitting", "true");
+                $body.addClass("compart-user-proposal__is-submitting");
+            } else {
+                $component.removeAttr("data-is-submitting");
+                $body.removeClass("compart-user-proposal__is-submitting");
+            }
+        }
+        return $component.attr("data-is-submitting") === "true";
+    }
+
+    $body.on("submit", `${selectComponent} form`, function (e) {
         e.preventDefault();
         const $form = $(this);
-        const $component = $form.parent(selectComponent);
+        const $component = $form.closest(selectComponent);
 
-        if ($component.attr("data-is-submitting") === "true") return;
+        if (isSubmitting($component)) return;
 
         const $proposal = $form.find("[name=compart_proposal]");
         const proposal = $proposal.val();
@@ -21,25 +36,27 @@ jQuery(($) => {
         }
 
         $proposal.prop("disabled", true);
-        $component.attr("data-is-submitting", "true");
+        isSubmitting($component, true);
 
         api.createProposal(proposal)
             .then(response => {
                 $proposal.prop("disabled", false);
-                $component.attr("data-is-submitting", "false");
                 $proposal.val("");
+                isSubmitting($component, false);
                 return response;
             }).then(onResult($component, proposal));
     });
 
     const onResult = ($component, proposal) => (response) => {
+        console.debug("Compart", $component, $component.find("form"), response);
         $component.find("form").hide();
         if (!response.success) {
+            console.debug("Compart", "no success", response)
             $component.find(selectError).show();
             return;
         }
-        const $success = $component.find(selectSuccess);
-        $success.show();
-        $success.find("[data-compart-proposal-preview]").val(proposal);
+        console.debug("Compart", "success", $component.find(selectPreview), $component.find(selectSuccess))
+        $component.find(selectPreview).val(proposal);
+        $component.find(selectSuccess).show();
     }
 });

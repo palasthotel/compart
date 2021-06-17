@@ -5,6 +5,7 @@ namespace Palasthotel\WordPress\CommunityParticipation\Routing;
 
 
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
+use Palasthotel\WordPress\CommunityParticipation\Model\Response\ConnectionsResponse;
 use Palasthotel\WordPress\CommunityParticipation\Model\VoteQueryArgs;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 use Palasthotel\WordPress\CommunityParticipation\REST;
@@ -47,7 +48,7 @@ class Votings {
 
 		register_rest_route( REST::NAMESPACE, '/votings/(?P<voting_id>\d+)', array(
 			'methods'             => WP_REST_Server::READABLE,
-			'callback'            => [ $this, 'getVotings' ],
+			'callback'            => [ $this, 'getVoting' ],
 			'permission_callback' => function ( WP_REST_Request $request ) {
 				return is_user_logged_in();
 			},
@@ -74,9 +75,21 @@ class Votings {
 				"proposal_id" => $args["proposal_id"],
 			]
 		) );
+
+		register_rest_field(
+			"post",
+			"voting_post_connection",
+			[
+				"get_callback" => function($post){
+					$post_id = $post["id"];
+					$connection = $this->plugin->database->getConnectedVotingConnection($post_id);
+					return null !== $connection ? new ConnectionsResponse($connection): null;
+				}
+			]
+		);
 	}
 
-	public function getVotings( WP_REST_Request $request ) {
+	public function getVoting( WP_REST_Request $request ) {
 		$userId         = get_current_user_id();
 		$votingId       = $request->get_param( "voting_id" );
 		$args           = new VoteQueryArgs();
@@ -85,7 +98,7 @@ class Votings {
 		$votingReactions = $this->plugin->database->queryVotingReactions( $args );
 
 		return is_array( $votingReactions ) ? array_map( function ( $reaction ) use ( $userId ) {
-			return $reaction->userId === $userId ? $reaction : [
+			return $reaction->userId == $userId ? $reaction : [
 				"id"         => $reaction->id,
 				"proposalId" => $reaction->proposalId,
 				"type"       => $reaction->type

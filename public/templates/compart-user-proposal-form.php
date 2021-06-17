@@ -1,4 +1,4 @@
-<div data-compart-user-proposal-form>
+<div data-compart-user-proposal-component>
 <?php
 
 if ( is_user_logged_in() ) {

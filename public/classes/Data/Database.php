@@ -50,20 +50,11 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 				"proposal"      => $proposal->text,
 				"status"        => $proposal->status,
 				"summary"       => $proposal->summary,
+				"notes"         => $proposal->notes,
 				"modified_date" => date( "Y-m-d H:i:s" ),
 			],
 			[ "id" => $proposal->id ],
-			[ "%s", "%s", "%s", "%s" ],
-			[ "%d" ]
-		);
-	}
-
-	public function updateProposalStatus( $id, string $status ) {
-		return $this->wpdb->update(
-			$this->tableProposals,
-			[ "status" => $status, "modified_date" => date( "Y-m-d H:i:s" ) ],
-			[ "id" => $id ],
-			[ "%s", "%s" ],
+			[ "%s", "%s", "%s", "%s", "%s" ],
 			[ "%d" ]
 		);
 	}
@@ -239,29 +230,45 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 		return $this->wpdb->insert(
 			$this->tablePosts,
 			[
-				"post_id"       => $connection->postId,
-				"voting_id"     => $connection->votingId,
-				"proposal_id"   => $connection->proposalId,
-				"created_date"  => date( "Y-m-d H:i:s" ),
+				"post_id"      => $connection->postId,
+				"voting_id"    => $connection->votingId,
+				"proposal_id"  => $connection->proposalId,
+				"created_date" => date( "Y-m-d H:i:s" ),
 			],
-			[ "%d", "%d", "%d", "%s"]
+			[ "%d", "%d", "%d", "%s" ]
 		);
 	}
 
 	/**
 	 * @param $votingId
 	 *
-	 * @return VotingPostConnection[]
+	 * @return VotingPostConnection|null
 	 */
-	public function getConnectedPostConnections($votingId){
-		$result = $this->wpdb->get_results(
+	public function getConnectedPostConnection( $votingId ) {
+		$row = $this->wpdb->get_row(
 			$this->wpdb->prepare(
-				"SELECT proposal_id, post_id, voting_id FROM $this->tablePosts WHERE voting_id = %s",
+				"SELECT proposal_id, post_id, voting_id FROM $this->tablePosts WHERE voting_id = %s LIMIT 1",
 				$votingId
 			)
 		);
 
-		return array_map([$this->utils, 'rowToConnection'], $result);
+		return is_object($row) ? $this->utils->rowToConnection($row) : null;
+	}
+
+	/**
+	 * @param $postId
+	 *
+	 * @return VotingPostConnection|null
+	 */
+	public function getConnectedVotingConnection($postId){
+		$row = $this->wpdb->get_row(
+			$this->wpdb->prepare(
+				"SELECT proposal_id, post_id, voting_id FROM $this->tablePosts WHERE post_id = %s LIMIT 1",
+				$postId
+			)
+		);
+
+		return is_object($row) ? $this->utils->rowToConnection($row) : null;
 	}
 
 
@@ -276,6 +283,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
     		user_id bigint(20) unsigned NOT NULL,
     		proposal TEXT NOT NULL,
     		summary VARCHAR(190) NOT NULL DEFAULT '',
+    		notes TEXT NOT NULL DEFAULT '',
 			status varchar(20) NOT NULL DEFAULT 'new',
     		created_date TIMESTAMP NOT NULL,
     		modified_date TIMESTAMP NOT NULL,
@@ -326,7 +334,7 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
     		created_date TIMESTAMP NOT NULL,
     		primary key (id),
     		unique key (post_id),
-    		key (voting_id),
+    		unique key (voting_id),
 		    foreign key (post_id) references $postsTable ( ID ) ON DELETE CASCADE,	
 		    foreign key (voting_id) references $postsTable ( ID ) ON DELETE CASCADE,
     		foreign key (proposal_id) references $this->tableProposals ( id ) ON DELETE CASCADE

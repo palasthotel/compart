@@ -8,18 +8,29 @@ const ProposalSelector = (
     return <>
         <label>
             Add proposal<br/>
-            <select onChange={(e)=>setSelectedId(e.target.value)}>
+            <select
+                style={{
+                    width: "100%",
+                }}
+                onChange={(e)=>setSelectedId(e.target.value)}
+            >
                 {selectedId === "" && <option>- Select proposal -</option>}
                 {proposals.map(p =>
                     <option key={p.id} value={p.id}>{p.summary}</option>
                 )}
             </select>
         </label>
-        <button onClick={()=>{
-            if(selectedId === "") return;
-            onAddProposal(selectedId);
-            setSelectedId("");
-        }}>+</button>
+        <button
+            className="button button-secondary"
+            onClick={(e)=>{
+                e.preventDefault();
+                if(selectedId === "") return;
+                onAddProposal(selectedId);
+                setSelectedId("");
+            }}
+        >
+            + Add
+        </button>
     </>
 }
 

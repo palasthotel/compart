@@ -27,6 +27,9 @@ class ProposalEditor {
 		if ( isset( $_POST["proposal_text"] ) && ! empty( $_POST["proposal_text"] ) ) {
 			$proposal->text = sanitize_text_field( $_POST["proposal_text"]);
 		}
+		if ( isset( $_POST["proposal_notes"] ) ) {
+			$proposal->notes = sanitize_text_field( $_POST["proposal_notes"]);
+		}
 
 		$database->updateProposal($proposal);
 
@@ -89,7 +92,7 @@ class ProposalEditor {
 
 		echo "<div>";
 		echo "<label><strong>Notes for proposer</strong><br/>";
-		echo "<textarea id='proposal-text' name='proposal_text' rows='5'>$proposal->text</textarea>";
+		echo "<textarea id='proposal-text' name='proposal_notes' rows='5'>$proposal->notes</textarea>";
 		echo "</label>";
 		echo "<p class='description'>Leave some note for the community member.</p>";
 		echo "</div>";

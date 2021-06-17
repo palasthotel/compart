@@ -14,12 +14,59 @@ const getLiClasses = (status) => {
     return cls.join(" ");
 };
 
+export const NextStepOpenButton = (
+    {
+        label = "Start voting",
+        status,
+        canOpen,
+        onOpen
+    }
+)=>{
+    if(VOTING_STATUS.DRAFT !== status) return null;
+    return <button
+        className="button button-secondary"
+        disabled={!canOpen}
+        onClick={(e)=>{
+            e.preventDefault();
+            if(canOpen){
+                onOpen();
+            }
+        }}
+    >
+        {label}
+    </button>
+}
+
+export const NextStepFinishButton = (
+    {
+        label = "End voting",
+        status,
+        canFinish,
+        onFinish
+    }
+) => {
+    if(VOTING_STATUS.OPEN !== status) return null;
+    return <button
+        className="button button-secondary"
+        disabled={!canFinish}
+        onClick={(e)=>{
+            e.preventDefault();
+            if(canFinish){
+                onFinish();
+            }
+        }}
+    >
+        {label}
+    </button>
+}
+
 const VotingSteps = (
     {
         status,
         onChange,
-        canFinish = false,
         canOpen = false,
+        canFinish = false,
+        isFinished = false
     }
 ) => {
 
@@ -42,7 +89,7 @@ const VotingSteps = (
             className={getLiClasses(draftStatus)}
             onClick={()=> onChange(VOTING_STATUS.DRAFT)}
         >
-            1. Preparation
+            1. Preparation { status !== VOTING_STATUS.DRAFT ? "✅" : ""}
         </div>
         <div
             className={getLiClasses(openStatus)}
@@ -50,7 +97,7 @@ const VotingSteps = (
                 if(canOpen) onChange(VOTING_STATUS.OPEN)
             }}
         >
-            2. Voting in progress
+            2. Voting in progress { ![VOTING_STATUS.DRAFT, VOTING_STATUS.OPEN].includes(status) ? "✅" : ""}
         </div>
         <div
             className={getLiClasses(finishStatus)}
@@ -58,7 +105,7 @@ const VotingSteps = (
                 if(canFinish) onChange(VOTING_STATUS.FINISHED)
             }}
         >
-            3. Finish
+            3. Finish { isFinished ? "✅" : ""}
         </div>
     </div>
 }

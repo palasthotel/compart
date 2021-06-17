@@ -8,10 +8,10 @@ use Palasthotel\WordPress\BlockX\Model\BlockId;
 use Palasthotel\WordPress\BlockX\Model\ContentStructure;
 use Palasthotel\WordPress\CommunityParticipation\Plugin;
 
-class UserProposalForm extends _BlockType {
+class UserProposalsList extends _BlockType {
 
 	public function id(): BlockId {
-		return BlockId::build("compart", "user-proposal-form");
+		return BlockId::build("compart", "user-proposals-list");
 	}
 
 	public function category(): string {
@@ -19,7 +19,7 @@ class UserProposalForm extends _BlockType {
 	}
 
 	public function title(): string {
-		return _x( "User proposal form", "blockx title", Plugin::DOMAIN);
+		return _x("User proposals list", "blockx title", Plugin::DOMAIN);
 	}
 
 	public function contentStructure(): ContentStructure {

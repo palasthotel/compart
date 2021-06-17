@@ -1,5 +1,9 @@
 import React from "react";
 
+const NoConnectionYet = ()=>{
+    return <p></p>
+}
+
 const VotingToPostConnectionsList = ({connections})=>{
     if(connections.length <= 0) return null;
     return<ul>

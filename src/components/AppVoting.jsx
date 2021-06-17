@@ -7,7 +7,8 @@ import VotingToPostConnectionsList from "./VotingToPostConnectionsList.jsx";
 import ProposalSelector from "./ProposalSelector.jsx";
 import './AppVoting.scss';
 import {VOTING_STATUS} from "../store/constants";
-import VotingSteps from "./VotingSteps.jsx";
+import VotingSteps, {NextStepFinishButton, NextStepOpenButton} from "./VotingSteps.jsx";
+import VotingFinish from "./VotingFinish.jsx";
 
 
 const AppVoting = (
@@ -16,13 +17,13 @@ const AppVoting = (
         reactions,
         status: initStatus,
         selection: initSelection,
-        connections: initConnections,
+        connection,
     }
 ) => {
 
     const [status, setStatus] = useState(initStatus || VOTING_STATUS.OPEN);
     const [selectionIds, setSelectionIds] = useState(initSelection || []);
-    const [connections, setConnections] = useState(initConnections || []);
+    const [generatePost, setGeneratePost] = useState("");
 
     const isStatusChanged = status !== initStatus;
     const isSelectionChanged = initSelection.length !== selectionIds.length
@@ -39,51 +40,32 @@ const AppVoting = (
         setSelectionIds(newIds);
     }
 
-    const handleCreatePost = (e) => {
-        e.preventDefault();
-        const stats = {};
-        reactions.forEach(reaction => {
-            if (typeof stats[reaction.proposalId] !== "number") {
-                stats[reaction.proposalId] = 0;
-            }
-            stats[reaction.proposalId] += 1;
-        });
-        let maxProposalId = null;
-        for (const proposalId in stats) {
-            if (null === maxProposalId || stats[maxProposalId] < stats[proposalId]) {
-                maxProposalId = proposalId;
-            }
-        }
-        if (maxProposalId === null) return;
-
-        Compart.api.createPost(Compart.voting_id, maxProposalId).then(connection => {
-            if (connection) {
-                setConnections([
-                    ...connections,
-                    connection,
-                ]);
-            }
-        })
+    const trashId = (id) => {
+        setSelectionIds(selectionIds.filter(_id=>_id !== id));
     }
+
+    const canOpen = selectionIds.length > 1;
+    const canFinish = reactions.length > 1;
 
     return <div className={`app-voting ${isChanged ? "is-changed" : ""}`}>
 
         <VotingSteps
             status={status}
             onChange={setStatus}
-            canOpen={selectionIds.length > 1}
-            canFinish={reactions.length > 1}
+            canOpen={canOpen}
+            canFinish={canFinish}
+            isFinished={connection !== null}
         />
 
         <div className="app-voting__changed-status">Please update post to save changes</div>
 
         <RequiredFormFields
             status={status}
+            generatePost={generatePost}
             selectedProposalIds={selectionIds}
         />
 
         <div className="app-voting__content">
-
 
             {
                 status === VOTING_STATUS.DRAFT &&
@@ -98,14 +80,13 @@ const AppVoting = (
                 />
             }
 
-
-            {selectionIds.map((id, idx) => {
-                const proposal = proposals.find(p => p.id === id);
-                if (!proposal) return null;
-                switch (status) {
-                    case VOTING_STATUS.DRAFT:
-                        return <ProposalsList>
-                            <ProposalListItemDraft
+            <ProposalsList>
+                {selectionIds.map((id, idx) => {
+                    const proposal = proposals.find(p => p.id === id);
+                    if (!proposal) return null;
+                    switch (status) {
+                        case VOTING_STATUS.DRAFT:
+                            return <ProposalListItemDraft
                                 key={id}
                                 {...proposal}
                                 canMoveUp={idx !== 0}
@@ -116,40 +97,50 @@ const AppVoting = (
                                 onMoveDown={() => {
                                     switchIds(idx, idx + 1);
                                 }}
+                                onTrash={()=>{
+                                    trashId(id);
+                                }}
                             />
-                        </ProposalsList>
-                    case VOTING_STATUS.OPEN:
-                        const proposalReactions = reactions.filter(r => r.proposalId === proposal.id);
-                        const percentage = reactions.length > 0 ? proposalReactions.length / reactions.length : 0;
-                        return <ProposalsList>
-                            <ProposalsListItemStats
+                        case VOTING_STATUS.OPEN:
+                        case VOTING_STATUS.FINISHED:
+                            const proposalReactions = reactions.filter(r => r.proposalId === proposal.id);
+                            const percentage = reactions.length > 0 ? proposalReactions.length / reactions.length : 0;
+                            return <ProposalsListItemStats
                                 key={id}
                                 {...proposal}
                                 reactions={proposalReactions}
                                 percentage={percentage}
                             />
-                        </ProposalsList>
-                }
-                return null
-            })}
-
-            {
-                status === VOTING_STATUS.FINISHED &&
-                <>
-                    <VotingToPostConnectionsList
-                        connections={connections}
-                    />
-                    {
-                        connections.length === 0 &&
-                        status === VOTING_STATUS.FINISHED &&
-                        <div>
-                            <button onClick={handleCreatePost}>
-                                Create post for winning proposal
-                            </button>
-                        </div>
                     }
-                </>
-            }
+                    return null
+                })}
+            </ProposalsList>
+
+            { status === VOTING_STATUS.FINISHED && <VotingFinish
+                proposals={proposals}
+                reactions={reactions}
+                connection={connection}
+                generatePost={generatePost}
+                onChangeGeneratePost={(winnerIdOrEmptyString)=>{
+                    setGeneratePost(winnerIdOrEmptyString);
+                }}
+            /> }
+
+            <NextStepOpenButton
+                status={status}
+                canOpen={canOpen}
+                onOpen={() => {
+                    setStatus(VOTING_STATUS.OPEN);
+                }}
+            />
+
+            <NextStepFinishButton
+                status={status}
+                canFinish={canFinish}
+                onFinish={() => {
+                    setStatus(VOTING_STATUS.FINISHED);
+                }}
+            />
 
 
         </div>

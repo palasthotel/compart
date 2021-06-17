@@ -23,6 +23,7 @@ class Proposal {
 	var $id;
 	var $text;
 	var $summary;
+	var $notes;
 	var $userId;
 	var $status;
 	var $created;
@@ -31,5 +32,6 @@ class Proposal {
 	public function __construct() {
 		$this->created = new DateTime();
 		$this->summary = "";
+		$this->notes = "";
 	}
 }

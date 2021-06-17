@@ -1,16 +1,56 @@
 .proposal-list-item{
+  position: relative;
   font-size: 1.2rem;
-  padding: 10px 0;
+  padding: 16px 0 16px 40px;
+  margin: 0;
+
+
+
+}
+
+.proposal-list-item__draft{
+  padding: 16px 0 16px 40px;
+
   & + & {
-    border-top: 1px solid #efefef;
+    border-top: 1px solid #999;
   }
+
+  .proposal-list-item__button{
+    position: absolute;
+
+    border:none;
+    background: transparent;
+    cursor: pointer;
+    &:hover{
+      color: #2271b1;
+    }
+  }
+  .proposal-list-item__button-up{
+    left: 0;
+    top: 2px;
+  }
+  .proposal-list-item__button-down {
+    left: 0;
+    bottom: 2px;
+  }
+  .proposal-list-item__button-trash {
+    top: 18px;
+    right: 0;
+    &:hover {
+      color: #b32d2e;
+    }
+  }
+}
+
+.proposal-list-item__stats{
+  padding: 16px 0;
 }
 
 .proposal__percentage-wrapper{
   position: relative;
   height: 4px;
   width: 100%;
-  background: #e3e3e3;
+  background: #efefef;
   margin-bottom: 10px;
   padding-top: 24px;
   .proposal__percentage-counter {
@@ -23,9 +63,9 @@
   .proposal__percentage-bar{
     position: absolute;
     background: #2271b1;
-    bottom: 1px;
-    left: 1px;
+    bottom: 0;
+    left: 0;
     width: 1px;
-    height: 2px;
+    height: 3px;
   }
 }

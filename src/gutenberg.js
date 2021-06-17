@@ -1,23 +1,11 @@
-import domReady from '@wordpress/dom-ready';
+import {registerPlugin} from "@wordpress/plugins";
+import {PluginPostStatusInfo} from '@wordpress/edit-post';
 import './gutenberg.scss';
-import * as api from './store/api';
 
-// import { registerBlockType } from '@wordpress/blocks'
-//
-// domReady(function () {
-//
-//     Compart.api = api;
-//
-//     registerBlockType("compart/create-proposal",{
-//         title: "User proposal form",
-//         category: "widgets",
-//         edit(props){
-//             return <div>
-//                 <p><strong></strong></p>
-//             </div>
-//         }
-//     });
-//
-//
-//
-// });
+registerPlugin('workflow-show-author-email', {
+    render: () => <>
+        <PluginPostStatusInfo>
+            <p>Voting!</p>
+        </PluginPostStatusInfo>
+    </>
+});
