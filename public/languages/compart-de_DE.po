@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Community participation\n"
 "POT-Creation-Date: 2021-06-28 09:39+0200\n"
-"PO-Revision-Date: 2021-06-28 09:41+0200\n"
+"PO-Revision-Date: 2021-06-28 09:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -144,12 +144,12 @@ msgstr "Angenommen"
 #: classes/Utils/Labels.php:17 classes/View/ProposalEditor.php:76
 msgctxt "Proposal editor status"
 msgid "Rejected"
-msgstr "Abgelehnt"
+msgstr "Verdankt"
 
 #: classes/Utils/Labels.php:18 classes/View/ProposalEditor.php:77
 msgctxt "Proposal editor status"
 msgid "Finished"
-msgstr "Abgeschlossen"
+msgstr "Fertiggestellt"
 
 #: classes/View/Menu.php:24 classes/View/Menu.php:25
 msgid "Participations"
