@@ -7,6 +7,8 @@ namespace Palasthotel\WordPress\CommunityParticipation\View;
 use Palasthotel\WordPress\CommunityParticipation\Data\Database;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\ProposalQueryArgs;
+use Palasthotel\WordPress\CommunityParticipation\Plugin;
+use Palasthotel\WordPress\CommunityParticipation\Utils\Labels;
 use Palasthotel\WordPress\CommunityParticipation\Utils\Validation;
 
 class ProposalsTable extends \WP_List_Table {
@@ -24,9 +26,9 @@ class ProposalsTable extends \WP_List_Table {
 	public function get_columns() {
 		return [
 			"id"       => "ID",
-			"proposal" => "Proposal",
-			"status"   => "Status",
-			"user_id"  => "User",
+			"proposal" => __("Proposal", Plugin::DOMAIN),
+			"status"   => __("Status", Plugin::DOMAIN),
+			"user_id"  => __("Community member", Plugin::DOMAIN),
 		];
 	}
 
@@ -69,11 +71,12 @@ class ProposalsTable extends \WP_List_Table {
 				}
 				break;
 			case "status":
+				$label = Labels::proposalStatus($item->status);
 				if ( ! isset( $_GET["status"] ) ) {
 					$url = add_query_arg( [ "status" => $item->status ] );
-					echo "<a href='$url'>$item->status</a>";
+					echo "<a href='$url'>$label</a>";
 				} else {
-					echo $item->status;
+					echo $label;
 				}
 				break;
 
@@ -124,21 +127,20 @@ class ProposalsTable extends \WP_List_Table {
 		$countAll = $this->database->countProposals($args);
 
 		$views = [
-			'all'     => $this->get_view_state("All", $countAll, $adminUrl, !$selectedStatus),
+			'all'     => $this->get_view_state(
+				_x("All", "proposals table filter", Plugin::DOMAIN ),
+				$countAll,
+				$adminUrl,
+				!$selectedStatus
+			),
 		];
 
-		$items = [
-			Proposal::STATUS_WAITING => "Waiting",
-			Proposal::STATUS_ACCEPTED => "Accepted",
-			Proposal::STATUS_REJECTED => "Rejected",
-			Proposal::STATUS_FINISHED => "Finished",
-		];
-
-		foreach ( $items as $status => $label){
+		foreach ( Proposal::STATUSES as $status){
 			$args = new ProposalQueryArgs();
 			$args->status = $status;
 			$count = $this->database->countProposals($args);
 			$url = $adminUrl."&status=$status";
+			$label = Labels::proposalStatus($status);
 			$views[$status] = $this->get_view_state($label, $count, $url, $selectedStatus === $status);
 		}
 

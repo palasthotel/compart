@@ -55,7 +55,7 @@ class MenuProposals extends Component {
                 }
 
                 .column-status {
-                    width: 100px;
+                    width: 140px;
                 }
 
                 .column-user_id {
