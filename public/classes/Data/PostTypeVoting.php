@@ -18,6 +18,10 @@ class PostTypeVoting extends Component {
 
 	const SLUG = "community-voting";
 
+	const STATUS_DRAFT = "draft";
+	const STATUS_OPEN = "open";
+	const STATUS_FINISHED = "finished";
+
 	public function onCreate() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'the_post', array( $this, 'the_post' ) );

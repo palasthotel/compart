@@ -56,6 +56,20 @@ class VotingMetaBox extends Component {
 		$this->plugin->assets->localize(
 			Plugin::HANDLE_PROPOSALS_ADMIN_JS,
 			[
+				"i18n"       => [
+					"save_changes"     => __( "Please update post to save changes", Plugin::DOMAIN ),
+					"step_draft"       => __( "Preparation", Plugin::DOMAIN ),
+					"step_open"        => __( "Voting", Plugin::DOMAIN ),
+					"step_finished"    => __( "Finish", Plugin::DOMAIN ),
+					"add_proposal"     => __( "Add proposal", Plugin::DOMAIN ),
+					"add_proposal_btn" => __( "+ Add", Plugin::DOMAIN ),
+					"winner_is"        => __( "And the winner is:", Plugin::DOMAIN ),
+					"create_post"      => __( "Create post with connection to this voting result", Plugin::DOMAIN ),
+					"post"             => __( "Post:", Plugin::DOMAIN ),
+					"select_proposal"  => __( "Select proposal", Plugin::DOMAIN ),
+					"start_voting_btn" => __( "Start voting", Plugin::DOMAIN ),
+					"end_voting_btn"   => __( "End voting", Plugin::DOMAIN ),
+				],
 				"voting_id"  => get_the_ID(),
 				"status"     => get_post_meta( get_the_ID(), Plugin::POST_META_STATUS, true ),
 				"proposals"  => $notEmptyItems,

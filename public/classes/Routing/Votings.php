@@ -4,6 +4,7 @@
 namespace Palasthotel\WordPress\CommunityParticipation\Routing;
 
 
+use Palasthotel\WordPress\CommunityParticipation\Data\PostTypeVoting;
 use Palasthotel\WordPress\CommunityParticipation\Model\Proposal;
 use Palasthotel\WordPress\CommunityParticipation\Model\Response\ConnectionsResponse;
 use Palasthotel\WordPress\CommunityParticipation\Model\VoteQueryArgs;
@@ -57,7 +58,9 @@ class Votings {
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => [ $this, 'voteForProposal' ],
 			'permission_callback' => function ( WP_REST_Request $request ) {
-				return is_user_logged_in();
+				$voting_status = get_post_meta($request->get_param("voting_id"), Plugin::POST_META_STATUS, true);
+				return is_user_logged_in() &&
+				        PostTypeVoting::STATUS_OPEN === $voting_status;
 			},
 			'args'                => [
 				"proposal_id" => $args["proposal_id"],

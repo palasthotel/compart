@@ -70,12 +70,6 @@ class ProposalEditor {
 		echo "<div>";
 		echo "<label><strong>Status</strong><br/>";
 		echo "<select name='proposal_status'>";
-		$labels = [
-			Proposal::STATUS_WAITING  => _x( "Waiting", "Proposal editor status", Plugin::DOMAIN ),
-			Proposal::STATUS_ACCEPTED => _x( "Accepted", "Proposal editor status", Plugin::DOMAIN ),
-			Proposal::STATUS_REJECTED => _x( "Rejected", "Proposal editor status", Plugin::DOMAIN ),
-			Proposal::STATUS_FINISHED => _x( "Finished", "Proposal editor status", Plugin::DOMAIN ),
-		];
 		foreach ( Proposal::STATUSES as $status ) {
 			$selected = $status === $proposal->status ? "selected='selected'" : "";
 			$label = Labels::proposalStatus($status);

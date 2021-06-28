@@ -44,7 +44,7 @@ class ProposalsTable extends \WP_List_Table {
 			case "proposal":
 				echo "<strong>";
 				if(empty($item->summary)){
-					echo "Not summarized yet ✏️";
+					echo "✏️";
 				} else {
 					echo $item->summary;
 				}
