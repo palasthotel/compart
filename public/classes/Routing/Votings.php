@@ -58,9 +58,10 @@ class Votings {
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => [ $this, 'voteForProposal' ],
 			'permission_callback' => function ( WP_REST_Request $request ) {
-				$voting_status = get_post_meta($request->get_param("voting_id"), Plugin::POST_META_STATUS, true);
-				return is_user_logged_in() &&
-				        PostTypeVoting::STATUS_OPEN === $voting_status;
+				$voting_status = get_post_meta( $request->get_param( "voting_id" ), Plugin::POST_META_STATUS, true );
+				$isVotingOpen  = PostTypeVoting::STATUS_OPEN === $voting_status;
+
+				return apply_filters( Plugin::FILTER_USER_CAN_VOTE, is_user_logged_in() && $isVotingOpen, $request );
 			},
 			'args'                => [
 				"proposal_id" => $args["proposal_id"],
@@ -72,7 +73,10 @@ class Votings {
 			'callback'            => [ $this, 'unvoteForProposal' ],
 			'permission_callback' => function ( WP_REST_Request $request ) {
 				// only editors
-				return is_user_logged_in();
+				$voting_status = get_post_meta( $request->get_param( "voting_id" ), Plugin::POST_META_STATUS, true );
+				$isVotingOpen  = PostTypeVoting::STATUS_OPEN === $voting_status;
+
+				return apply_filters( Plugin::FILTER_USER_CAN_UNVOTE, is_user_logged_in() && $isVotingOpen, $request );
 			},
 			'args'                => [
 				"proposal_id" => $args["proposal_id"],
@@ -83,10 +87,11 @@ class Votings {
 			"post",
 			"voting_post_connection",
 			[
-				"get_callback" => function($post){
-					$post_id = $post["id"];
-					$connection = $this->plugin->database->getConnectedVotingConnection($post_id);
-					return null !== $connection ? new ConnectionsResponse($connection): null;
+				"get_callback" => function ( $post ) {
+					$post_id    = $post["id"];
+					$connection = $this->plugin->database->getConnectedVotingConnection( $post_id );
+
+					return null !== $connection ? new ConnectionsResponse( $connection ) : null;
 				}
 			]
 		);

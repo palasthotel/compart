@@ -24,7 +24,7 @@ class Proposals {
 			'callback'            => [ $this, 'createProposal' ],
 			'permission_callback' => function ( WP_REST_Request $request ) {
 				// only logged in users may create proposals
-				return is_user_logged_in();
+				return apply_filters(Plugin::FILTER_USER_CAN_PROPOSE, is_user_logged_in(), $request);
 			},
 			'args'                => [
 				"text" => array(

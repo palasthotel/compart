@@ -34,6 +34,7 @@ class PostTypeVoting extends Component {
 	}
 
 	public function the_post(\WP_Post $post){
+		$post->votingStatus = get_post_meta($post->ID, Plugin::POST_META_STATUS, true);
 		$post->votingPostConnection = $this->plugin->repo->getVotingPostConnection($post->ID);
 	}
 

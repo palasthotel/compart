@@ -47,6 +47,9 @@ class Plugin extends Components\Plugin {
 	const FILTER_ADD_TEMPLATE_PATHS = "compart_add_template_paths";
 
 	const FILTER_CPT_COMMUNITY_VOTING_SLUG = "compart_community_voting_slug";
+	const FILTER_USER_CAN_PROPOSE = "compart_user_can_propose";
+	const FILTER_USER_CAN_VOTE = "compart_user_can_vote";
+	const FILTER_USER_CAN_UNVOTE = "compart_user_can_unvote";
 	const FILTER_REACTIONS = "compart_reactions";
 
 	const HANDLE_PROPOSALS_ADMIN_JS = "compart-admin-js";

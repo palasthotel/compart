@@ -16,8 +16,8 @@ use Palasthotel\WordPress\CommunityParticipation\Model\Reaction;
 	}
 </style>
 <?php
-
-echo "<ul data-voting-id='$voting_id'>";
+$status = get_post()->votingStatus;
+echo "<ul data-voting-id='$voting_id' data-voting-status='$status'>";
 foreach ($proposals as $proposal){
 	$count = count(array_filter($reactions, function($reaction) use ($proposal){
 		return $reaction->proposalId === $proposal->id;
