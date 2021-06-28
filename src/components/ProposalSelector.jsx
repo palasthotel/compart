@@ -4,17 +4,18 @@ import React from "react";
 const ProposalSelector = (
     {proposals, onAddProposal}
 ) => {
+    const {i18n} = Compart;
     const [selectedId, setSelectedId] = useState("");
     return <>
         <label>
-            Add proposal<br/>
+            {i18n.add_proposal}<br/>
             <select
                 style={{
                     width: "100%",
                 }}
                 onChange={(e)=>setSelectedId(e.target.value)}
             >
-                {selectedId === "" && <option>- Select proposal -</option>}
+                {selectedId === "" && <option>- {i18n.select_proposal} -</option>}
                 {proposals.map(p =>
                     <option key={p.id} value={p.id}>{p.summary}</option>
                 )}
@@ -29,7 +30,7 @@ const ProposalSelector = (
                 setSelectedId("");
             }}
         >
-            + Add
+            {i18n.add_proposal_btn}
         </button>
     </>
 }

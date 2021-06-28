@@ -23,11 +23,12 @@ const findWinnerProposal = (proposals, reactions) => {
 const WinnerInfo = ({
     winner
 }) => {
+    const {i18n} = Compart;
     return <p style={{
         textAlign: "center",
         fontSize: "1.2rem",
     }}>
-        <strong>And the winner is:</strong><br/>{winner.summary} 🎉<br/><br/>
+        <strong>{i18n.winner_is}</strong><br/>{winner.summary} 🎉<br/><br/>
     </p>;
 }
 
@@ -38,6 +39,7 @@ const GeneratePostCheckbox = (
         onChange,
     }
 ) => {
+    const {i18n} = Compart;
     return <p style={{
         textAlign: "center",
         fontSize: "1.2rem",
@@ -49,7 +51,7 @@ const GeneratePostCheckbox = (
                 onChange={()=>{
                     onChange(generate === "" ? winner.id : "");
                 }}
-            /> Create post with connection to this voting result
+            /> {i18n.create_post}
         </label>
     </p>;
 }
@@ -58,11 +60,12 @@ const ConnectionToPost = ({
     post_title,
     edit_post_url,
 }) => {
+    const {i18n} = Compart;
     return <p style={{
         textAlign: "center",
         fontSize: "1.2rem",
     }}>
-        <strong>Post:</strong><br/>
+        <strong>{i18n.post}</strong><br/>
         <a href={edit_post_url}>{post_title}</a>
     </p>;
 }

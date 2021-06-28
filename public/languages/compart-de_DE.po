@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Community participation\n"
-"POT-Creation-Date: 2021-06-28 09:39+0200\n"
-"PO-Revision-Date: 2021-06-28 09:44+0200\n"
+"POT-Creation-Date: 2021-06-28 10:31+0200\n"
+"PO-Revision-Date: 2021-06-28 10:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de_DE\n"
@@ -44,6 +44,7 @@ msgstr "Abstimmung"
 
 #: classes/Data/PostTypeVoting.php:40 classes/Data/PostTypeVoting.php:41
 #: classes/Data/PostTypeVoting.php:42 classes/View/VotingMetaBox.php:23
+#: classes/View/VotingMetaBox.php:62
 msgid "Voting"
 msgstr "Abstimmung"
 
@@ -131,22 +132,22 @@ msgstr "Einträge filtern"
 msgid "Adds custom post type community voting"
 msgstr "Fügt benutzerdefinierten Post-Typ Community-Voting hinzu"
 
-#: classes/Utils/Labels.php:15 classes/View/ProposalEditor.php:74
+#: classes/Utils/Labels.php:15
 msgctxt "Proposal editor status"
 msgid "Waiting"
 msgstr "Wartet"
 
-#: classes/Utils/Labels.php:16 classes/View/ProposalEditor.php:75
+#: classes/Utils/Labels.php:16
 msgctxt "Proposal editor status"
 msgid "Accepted"
 msgstr "Angenommen"
 
-#: classes/Utils/Labels.php:17 classes/View/ProposalEditor.php:76
+#: classes/Utils/Labels.php:17
 msgctxt "Proposal editor status"
 msgid "Rejected"
 msgstr "Verdankt"
 
-#: classes/Utils/Labels.php:18 classes/View/ProposalEditor.php:77
+#: classes/Utils/Labels.php:18
 msgctxt "Proposal editor status"
 msgid "Finished"
 msgstr "Fertiggestellt"
@@ -164,35 +165,35 @@ msgstr "Vorschläge"
 msgid "Community member"
 msgstr "Community-Mitglied"
 
-#: classes/View/ProposalEditor.php:86
+#: classes/View/ProposalEditor.php:80
 msgid "Status of the proposal."
 msgstr "Status des Vorschlags."
 
-#: classes/View/ProposalEditor.php:90
+#: classes/View/ProposalEditor.php:84
 msgid "Summary"
 msgstr "Zusammenfassung"
 
-#: classes/View/ProposalEditor.php:93
+#: classes/View/ProposalEditor.php:87
 msgid "Editors summary of the proposal."
 msgstr "Redaktionszusammenfassung des Vorschlags."
 
-#: classes/View/ProposalEditor.php:97 classes/View/ProposalsTable.php:29
+#: classes/View/ProposalEditor.php:91 classes/View/ProposalsTable.php:29
 msgid "Proposal"
 msgstr "Vorschlag"
 
-#: classes/View/ProposalEditor.php:100
+#: classes/View/ProposalEditor.php:94
 msgid "The input from the community member."
 msgstr "Die Eingabe des Community-Mitglieds."
 
-#: classes/View/ProposalEditor.php:104
+#: classes/View/ProposalEditor.php:98
 msgid "Notes for proposer"
 msgstr "Hinweise für User"
 
-#: classes/View/ProposalEditor.php:107
+#: classes/View/ProposalEditor.php:101
 msgid "Note for the community member."
 msgstr "Hinweis für das Community-Mitglied."
 
-#: classes/View/ProposalEditor.php:110
+#: classes/View/ProposalEditor.php:104
 msgid "Save"
 msgstr "Speichern"
 
@@ -204,6 +205,50 @@ msgstr "Status"
 msgctxt "proposals table filter"
 msgid "All"
 msgstr "Alle"
+
+#: classes/View/VotingMetaBox.php:60
+msgid "Please update post to save changes"
+msgstr "Aktualisiere den Beitrag, um Änderungen zu speichern"
+
+#: classes/View/VotingMetaBox.php:61
+msgid "Preparation"
+msgstr "Vorbereitung"
+
+#: classes/View/VotingMetaBox.php:63
+msgid "Finish"
+msgstr "Abschluss"
+
+#: classes/View/VotingMetaBox.php:64
+msgid "Add proposal"
+msgstr "Vorschlag hinzufügen"
+
+#: classes/View/VotingMetaBox.php:65
+msgid "+ Add"
+msgstr "+ Hinzufügen"
+
+#: classes/View/VotingMetaBox.php:66
+msgid "And the winner is:"
+msgstr "Und der Gewinner ist:"
+
+#: classes/View/VotingMetaBox.php:67
+msgid "Create post with connection to this voting result"
+msgstr "Beitrag mit Verbindung zu diesem Abstimmungsergebnis erstellen"
+
+#: classes/View/VotingMetaBox.php:68
+msgid "Post:"
+msgstr "Beitrag:"
+
+#: classes/View/VotingMetaBox.php:69
+msgid "Select proposal"
+msgstr "Vorschlag auswählen"
+
+#: classes/View/VotingMetaBox.php:70
+msgid "Start voting"
+msgstr "Abstimmung starten"
+
+#: classes/View/VotingMetaBox.php:71
+msgid "End voting"
+msgstr "Abstimmung abschließen"
 
 #. Plugin Name of the plugin/theme
 msgid "Community participation"
@@ -221,6 +266,9 @@ msgstr ""
 msgid "http://www.palasthotel.de"
 msgstr ""
 
+#~ msgid "Voting in progress"
+#~ msgstr "Abstimmung im Gange"
+
 #~ msgid "Proposer"
 #~ msgstr "Community-Mitglied"
 
@@ -234,12 +282,6 @@ msgstr ""
 #~ msgctxt "Post Type Singular Name"
 #~ msgid "Proposal"
 #~ msgstr "Vorschlag"
-
-#~ msgid "Parent proposal:"
-#~ msgstr "Elternvorschlag:"
-
-#~ msgid "Add proposal"
-#~ msgstr "Vorschlag hinzufügen"
 
 #~ msgid "Adds custom post type community proposal"
 #~ msgstr "Fügt benutzerdefinierte Post-Typ-Community-Vorschlag hinzu"

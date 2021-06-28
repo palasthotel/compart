@@ -16,12 +16,12 @@ const getLiClasses = (status) => {
 
 export const NextStepOpenButton = (
     {
-        label = "Start voting",
         status,
         canOpen,
         onOpen
     }
 )=>{
+    const {i18n} = Compart;
     if(VOTING_STATUS.DRAFT !== status) return null;
     return <button
         className="button button-secondary"
@@ -33,18 +33,18 @@ export const NextStepOpenButton = (
             }
         }}
     >
-        {label}
+        {i18n.start_voting_btn}
     </button>
 }
 
 export const NextStepFinishButton = (
     {
-        label = "End voting",
         status,
         canFinish,
         onFinish
     }
 ) => {
+    const {i18n} = Compart;
     if(VOTING_STATUS.OPEN !== status) return null;
     return <button
         className="button button-secondary"
@@ -56,7 +56,7 @@ export const NextStepFinishButton = (
             }
         }}
     >
-        {label}
+        {i18n.end_voting_btn}
     </button>
 }
 
@@ -69,6 +69,7 @@ const VotingSteps = (
     }
 ) => {
 
+    const {i18n} = Compart;
     let draftStatus = STATUS.ACTIVE;
     let openStatus = canOpen ? STATUS.AVAILABLE : STATUS.DISABLED;
     let finishStatus = canFinish ? STATUS.AVAILABLE : STATUS.DISABLED;
@@ -87,17 +88,17 @@ const VotingSteps = (
         <div
             className={getLiClasses(draftStatus)}
         >
-            1. Preparation { status !== VOTING_STATUS.DRAFT ? "✅" : ""}
+            1. {i18n.step_draft} { status !== VOTING_STATUS.DRAFT ? "✅" : ""}
         </div>
         <div
             className={getLiClasses(openStatus)}
         >
-            2. Voting in progress { ![VOTING_STATUS.DRAFT, VOTING_STATUS.OPEN].includes(status) ? "✅" : ""}
+            2. {i18n.step_open} { ![VOTING_STATUS.DRAFT, VOTING_STATUS.OPEN].includes(status) ? "✅" : ""}
         </div>
         <div
             className={getLiClasses(finishStatus)}
         >
-            3. Finish { isFinished ? "✅" : ""}
+            3. {i18n.step_finished} { isFinished ? "✅" : ""}
         </div>
     </div>
 }

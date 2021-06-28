@@ -20,6 +20,7 @@ const AppVoting = (
     }
 ) => {
 
+    const {i18n} = Compart;
     const [status, setStatus] = useState(initStatus || VOTING_STATUS.OPEN);
     const [selectionIds, setSelectionIds] = useState(initSelection.map(p=> p.id) || []);
     const [generatePost, setGeneratePost] = useState("");
@@ -58,7 +59,7 @@ const AppVoting = (
             isFinished={connection !== null}
         />
 
-        <div className="app-voting__changed-status">Please update post to save changes</div>
+        <div className="app-voting__changed-status">{i18n.save_changes}</div>
 
         <RequiredFormFields
             status={status}
@@ -68,7 +69,7 @@ const AppVoting = (
 
         <div className="app-voting__content">
             {
-                initStatus === VOTING_STATUS.DRAFT &&
+                status === VOTING_STATUS.DRAFT &&
                 <ProposalSelector
                     proposals={proposals.filter(p => !selectionIds.includes(p.id))}
                     onAddProposal={(proposalId) => {
