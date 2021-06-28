@@ -30,11 +30,7 @@ class PostTypeVoting extends Component {
 	}
 
 	public function the_post(\WP_Post $post){
-		if($post->post_type === $this->getSlug()){
-			$post->votingPostConnection = $this->plugin->database->getConnectedPostConnection($post->ID);
-		} else {
-			$post->votingPostConnection = $this->plugin->database->getConnectedVotingConnection($post->ID);
-		}
+		$post->votingPostConnection = $this->plugin->repo->getVotingPostConnection($post->ID);
 	}
 
 	public function init() {

@@ -30,5 +30,18 @@ class Repository extends Component {
 		return $this->db->queryProposals($args);
 	}
 
+	/**
+	 * @param null|string|int $postId
+	 *
+	 * @return Model\VotingPostConnection|null
+	 */
+	function getVotingPostConnection($postId = null){
+		$post = get_post($postId);
+		if($post->post_type === $this->plugin->postTypeVoting->getSlug()){
+			return $this->plugin->database->getConnectedPostConnection($post->ID);
+		}
+		return$this->plugin->database->getConnectedVotingConnection($post->ID);
+	}
+
 
 }

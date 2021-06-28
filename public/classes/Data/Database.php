@@ -62,14 +62,14 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 	/**
 	 * @param int|string $id
 	 *
-	 * @return Proposal|false
+	 * @return Proposal|null
 	 */
 	public function getProposal( $id ) {
 		$result = $this->wpdb->get_row(
 			$this->wpdb->prepare( "SELECT * FROM $this->tableProposals WHERE id = %d", $id )
 		);
 		if ( empty( $result ) ) {
-			return false;
+			return null;
 		}
 
 		return $this->utils->rowToProposal( $result );
