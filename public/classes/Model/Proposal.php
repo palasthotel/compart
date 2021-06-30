@@ -29,6 +29,8 @@ class Proposal {
 	var $created;
 	var $modified;
 
+	var $connection;
+
 	public function __construct() {
 		$this->created = new DateTime();
 		$this->summary = "";

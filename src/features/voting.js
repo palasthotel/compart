@@ -79,7 +79,7 @@ jQuery(($) => {
     // ----------------------------------------------------
     // init applications
     // ----------------------------------------------------
-    $("[data-voting-id]").each(async (index, el) => {
+    $("[data-voting-id][data-voting-status=open]").each(async (index, el) => {
         try {
             await initVoting($(el));
         } catch (e) {

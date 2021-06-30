@@ -47,6 +47,13 @@ class Votings {
 			),
 		];
 
+		$userCanVoteUnvote = function ( string $filter, WP_REST_Request $request ) {
+			$voting_status = get_post_meta( $request->get_param( "voting_id" ), Plugin::POST_META_STATUS, true );
+			$isVotingOpen  = PostTypeVoting::STATUS_OPEN === $voting_status;
+
+			return apply_filters( $filter, is_user_logged_in() && $isVotingOpen, $request );
+		};
+
 		register_rest_route( REST::NAMESPACE, '/votings/(?P<voting_id>\d+)', array(
 			'methods'             => WP_REST_Server::READABLE,
 			'callback'            => [ $this, 'getVoting' ],
@@ -57,11 +64,8 @@ class Votings {
 		register_rest_route( REST::NAMESPACE, '/votings/(?P<voting_id>\d+)', array(
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => [ $this, 'voteForProposal' ],
-			'permission_callback' => function ( WP_REST_Request $request ) {
-				$voting_status = get_post_meta( $request->get_param( "voting_id" ), Plugin::POST_META_STATUS, true );
-				$isVotingOpen  = PostTypeVoting::STATUS_OPEN === $voting_status;
-
-				return apply_filters( Plugin::FILTER_USER_CAN_VOTE, is_user_logged_in() && $isVotingOpen, $request );
+			'permission_callback' => function ( WP_REST_Request $request ) use ( $userCanVoteUnvote ) {
+				return $userCanVoteUnvote( Plugin::FILTER_USER_CAN_UNVOTE, $request );
 			},
 			'args'                => [
 				"proposal_id" => $args["proposal_id"],
@@ -71,12 +75,8 @@ class Votings {
 		register_rest_route( REST::NAMESPACE, '/votings/(?P<voting_id>\d+)', array(
 			'methods'             => WP_REST_Server::DELETABLE,
 			'callback'            => [ $this, 'unvoteForProposal' ],
-			'permission_callback' => function ( WP_REST_Request $request ) {
-				// only editors
-				$voting_status = get_post_meta( $request->get_param( "voting_id" ), Plugin::POST_META_STATUS, true );
-				$isVotingOpen  = PostTypeVoting::STATUS_OPEN === $voting_status;
-
-				return apply_filters( Plugin::FILTER_USER_CAN_UNVOTE, is_user_logged_in() && $isVotingOpen, $request );
+			'permission_callback' => function ( WP_REST_Request $request ) use ( $userCanVoteUnvote ) {
+				return $userCanVoteUnvote( Plugin::FILTER_USER_CAN_UNVOTE, $request );
 			},
 			'args'                => [
 				"proposal_id" => $args["proposal_id"],

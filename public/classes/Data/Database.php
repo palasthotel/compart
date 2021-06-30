@@ -72,7 +72,11 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 			return null;
 		}
 
-		return $this->utils->rowToProposal( $result );
+		$model = $this->utils->rowToProposal( $result );
+
+		$model->connection = $this->getConnectedProposalConnection($id);
+
+		return $model;
 	}
 
 	/**
@@ -91,7 +95,19 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 		);
 		$result = $this->wpdb->get_results( $sql );
 
-		return array_map( [ $this->utils, 'rowToProposal' ], $result );
+		return array_map( function($item){
+			$proposal = $this->utils->rowToProposal($item);
+			$proposal->connection = $this->getConnectedProposalConnection($proposal->id);
+			return $proposal;
+		}, $result );
+	}
+
+	public function getVotingsByProposalId($proposalId){
+		return $this->wpdb->get_col(
+			$this->wpdb->prepare(
+				"SELECT voting_id FROM $this->tableVotingProposals WHERE proposal_id = %d", $proposalId
+			)
+		);
 	}
 
 	public function countProposals( ProposalQueryArgs $args ): int {
@@ -240,6 +256,22 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 	}
 
 	/**
+	 * @param $proposalId
+	 *
+	 * @return VotingPostConnection|null
+	 */
+	public function getConnectedProposalConnection($proposalId){
+		$row = $this->wpdb->get_row(
+			$this->wpdb->prepare(
+				"SELECT proposal_id, post_id, voting_id FROM $this->tablePosts WHERE proposal_id = %s LIMIT 1",
+				$proposalId
+			)
+		);
+
+		return is_object($row) ? $this->utils->rowToConnection($row) : null;
+	}
+
+	/**
 	 * @param $votingId
 	 *
 	 * @return VotingPostConnection|null
@@ -328,16 +360,14 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 
 		dbDelta( "CREATE TABLE IF NOT EXISTS $this->tablePosts (
     		id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  			post_id bigint(20) unsigned NOT NULL,	
+  			post_id bigint(20) unsigned NOT NULL,
     		proposal_id bigint(20) unsigned NOT NULL,
   			voting_id bigint(20) unsigned NOT NULL,
     		created_date TIMESTAMP NOT NULL,
     		primary key (id),
     		unique key (post_id),
     		unique key (voting_id),
-		    foreign key (post_id) references $postsTable ( ID ) ON DELETE CASCADE,	
-		    foreign key (voting_id) references $postsTable ( ID ) ON DELETE CASCADE,
-    		foreign key (proposal_id) references $this->tableProposals ( id ) ON DELETE CASCADE
+    		unique key (proposal_id)
 		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;" );
 	}
 

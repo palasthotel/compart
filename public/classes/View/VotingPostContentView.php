@@ -15,7 +15,7 @@ class VotingPostContentView extends Component {
 
 	public function the_content( $content ) {
 
-		if ( is_singular( $this->plugin->postTypeVoting->getSlug() ) && in_the_loop() && is_main_query() ) {
+		if ( in_the_loop() && $this->plugin->postTypeVoting->getSlug() === get_post_type() ) {
 			$voting_id      = get_the_ID();
 			$proposals      = $this->plugin->database->getProposalsByVoting($voting_id);
 			$args           = new VoteQueryArgs();

@@ -1,4 +1,9 @@
-import {createProposal, queryVoting, voteForProposal, unvoteForProposal} from './store/api';
+import {
+    createProposal,
+    queryVoting,
+    voteForProposal,
+    unvoteForProposal,
+} from './store/api';
 
 Compart.api = {
     createProposal,

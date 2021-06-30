@@ -69,7 +69,7 @@ class DatabaseUtils {
 	/**
 	 * @param $row
 	 *
-	 * @return Reaction
+	 * @return VotingPostConnection
 	 */
 	public function rowToConnection( $row ): VotingPostConnection {
 		$item             = new VotingPostConnection();

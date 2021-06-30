@@ -41,6 +41,15 @@ function compart_get_proposal_by_id( $proposal_id ){
 }
 
 /**
+ * @param $proposal_id
+ *
+ * @return int[] voting post ids
+ */
+function compart_get_votings_by_proposal_id($proposal_id){
+	return compart_plugin()->database->getVotingsByProposalId($proposal_id);
+}
+
+/**
  * @param null|int|string $post_id
  *
  * @return null|VotingPostConnection
@@ -48,3 +57,4 @@ function compart_get_proposal_by_id( $proposal_id ){
 function compart_get_voting_post_connection($post_id = null){
 	return compart_plugin()->repo->getVotingPostConnection($post_id);
 }
+
