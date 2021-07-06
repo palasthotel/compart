@@ -65,8 +65,17 @@ jQuery(($) => {
             try{
                 if (_isVoted) {
                     await api.unvoteForProposal(votingId, proposalId);
+                    $body.trigger("compart_unvoted", {
+                        $voting: $voting,
+                        voting:votingId,
+                    });
                 } else {
-                    await api.voteForProposal(votingId, proposalId, "up")
+                    await api.voteForProposal(votingId, proposalId, "up");
+                    $body.trigger("compart_voted", {
+                        $voting: $voting,
+                        voting:votingId,
+                        proposal: proposalId
+                    });
                 }
             } catch (e) {
                 updateVotingState($voting, myReaction);

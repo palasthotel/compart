@@ -65,7 +65,7 @@ class Votings {
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => [ $this, 'voteForProposal' ],
 			'permission_callback' => function ( WP_REST_Request $request ) use ( $userCanVoteUnvote ) {
-				return $userCanVoteUnvote( Plugin::FILTER_USER_CAN_UNVOTE, $request );
+				return $userCanVoteUnvote( Plugin::FILTER_USER_CAN_VOTE, $request );
 			},
 			'args'                => [
 				"proposal_id" => $args["proposal_id"],
