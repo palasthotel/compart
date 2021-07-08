@@ -24,7 +24,7 @@ class MenuProposals extends Component {
 			Menu::SLUG,
 			__( 'Proposals', Plugin::DOMAIN ),
 			__( 'Proposals', Plugin::DOMAIN ),
-			"manage_options",
+			"edit_posts",
 			self::SLUG,
 			[ $this, 'render_proposals' ]
 		);
