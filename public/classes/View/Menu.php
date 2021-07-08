@@ -23,7 +23,7 @@ class Menu extends Component {
 		add_menu_page(
 			__( 'Participations', Plugin::DOMAIN ),
 			__( 'Participations', Plugin::DOMAIN ),
-			"manage_options",
+			"edit_posts",
 			Menu::SLUG,
 			null,
 			"dashicons-share-alt",
