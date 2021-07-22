@@ -47,7 +47,8 @@ class MenuProposals extends Component {
 			$this->editor->render( $proposal );
 
 		} else {
-			$table = new ProposalsTable( $this->plugin->database );
+		    $dateFilterView = new DateFilterView();
+			$table = new ProposalsTable( $this->plugin->database, $dateFilterView );
 			?>
             <style>
                 .column-id {
@@ -61,12 +62,20 @@ class MenuProposals extends Component {
                 .column-user_id {
                     width: 40%;
                 }
+                .proposals__date-filter{
+                    float:right;
+                }
             </style>
             <h2>Proposals</h2>
 			<?php
+            echo "<div>";
+            echo "<div class='clearfix'>";
 			$table->views();
+			echo "</div>";
 			$table->prepare_items();
+			$dateFilterView->display();
 			$table->display();
+			echo "</div>";
 
 		}
 		echo "</div>";

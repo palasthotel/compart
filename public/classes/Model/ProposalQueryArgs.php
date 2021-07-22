@@ -10,4 +10,7 @@ class ProposalQueryArgs {
 	var $userId;
 	var $limit = 50;
 	var $offset = 0;
+	var $orderBy;
+	var $orderDirection = "DESC";
+	var $created;
 }

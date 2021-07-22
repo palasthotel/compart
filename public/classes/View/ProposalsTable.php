@@ -17,10 +17,15 @@ class ProposalsTable extends \WP_List_Table {
 	 * @var Database
 	 */
 	private $database;
+	/**
+	 * @var DateFilterView
+	 */
+	private $dateFilterView;
 
-	public function __construct( Database $database ) {
+	public function __construct( Database $database, DateFilterView $dateFilterView) {
 		parent::__construct( [] );
 		$this->database = $database;
+		$this->dateFilterView = $dateFilterView;
 	}
 
 	public function get_columns() {
@@ -29,6 +34,7 @@ class ProposalsTable extends \WP_List_Table {
 			"proposal" => __("Proposal", Plugin::DOMAIN),
 			"status"   => __("Status", Plugin::DOMAIN),
 			"user_id"  => __("Community member", Plugin::DOMAIN),
+			"created"  => __("Submitted", Plugin::DOMAIN),
 		];
 	}
 
@@ -79,14 +85,18 @@ class ProposalsTable extends \WP_List_Table {
 					echo $label;
 				}
 				break;
-
+			case "created":
+				$dateformat = get_option('date_format');
+				$timeFormat = get_option('time_format');
+				$date = date_i18n($dateformat." ".$timeFormat, strtotime($item->created));
+				echo $date;
+				break;
 		}
 	}
 
 	protected function get_sortable_columns() {
 		return [
-			'user_id' => [ 'user_id', 'asc' ],
-			'status'  => [ 'status', 'asc' ],
+			'created'  => [ 'created', 'desc' ],
 		];
 	}
 
@@ -99,6 +109,19 @@ class ProposalsTable extends \WP_List_Table {
 
 		if ( isset( $_GET["status"] ) && Validation::isValidProposalState( $_GET["status"] ) ) {
 			$args->status = $_GET["status"];
+		}
+		if ( isset( $_GET["user_id"] ) && !empty($_GET["user_id"]) ) {
+			$args->userId = intval($_GET["user_id"]);
+		}
+
+		if ( isset( $_GET["orderby"] ) && "created" === $_GET["orderby"]) {
+			$args->orderBy = "created";
+		}
+		if ( isset( $_GET["order"] ) && in_array(strtolower($_GET["order"]),["asc", "desc"])) {
+			$args->orderDirection = sanitize_text_field($_GET["order"]);
+		}
+		if(!empty($this->dateFilterView->getDate())){
+			$args->created = $this->dateFilterView->getDate();
 		}
 
 		$items = $this->database->queryProposals( $args );

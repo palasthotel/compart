@@ -85,14 +85,22 @@ class Database extends \Palasthotel\WordPress\CommunityParticipation\Components\
 	public function queryProposals( ProposalQueryArgs $args ): array {
 		list( $whereString, $whereValues ) = $this->utils->buildProposalsWhere( $args );
 
+		switch ($args->orderBy){
+			case "created":
+			default:
+				$orderBy = "ORDER BY created_date $args->orderDirection";
+				break;
+		}
+
 		$sql    = call_user_func_array(
 			[ $this->wpdb, 'prepare' ],
 			array_merge(
-				[ "SELECT * FROM $this->tableProposals $whereString ORDER BY modified_date DESC LIMIT %d OFFSET %d" ],
+				[ "SELECT * FROM $this->tableProposals $whereString $orderBy LIMIT %d OFFSET %d" ],
 				$whereValues,
 				[ $args->limit, $args->offset ]
 			)
 		);
+
 		$result = $this->wpdb->get_results( $sql );
 
 		return array_map( function($item){

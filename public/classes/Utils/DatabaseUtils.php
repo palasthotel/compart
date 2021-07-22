@@ -27,6 +27,11 @@ class DatabaseUtils {
 			$values[] = "%" . $args->search . "%";
 			$values[] = "%" . $args->search . "%";
 		}
+		if( !empty($args->created)){
+			$where[] = "created_date BETWEEN %s AND %s";
+			$values[] = $args->created." 00:00:00";
+			$values[] = $args->created." 23:59:59";
+		}
 
 		$whereString = "";
 		if ( count( $where ) > 0 ) {

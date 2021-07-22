@@ -4,8 +4,6 @@
 namespace Palasthotel\WordPress\CommunityParticipation\Model;
 
 
-use DateTime;
-
 class Proposal {
 
 	const STATUS_WAITING = "waiting";
@@ -32,7 +30,7 @@ class Proposal {
 	var $connection;
 
 	public function __construct() {
-		$this->created = new DateTime();
+		$this->created = date("Y-m-d H:i:s");
 		$this->summary = "";
 		$this->notes = "";
 	}
