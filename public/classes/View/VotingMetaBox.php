@@ -124,6 +124,8 @@ class VotingMetaBox extends Component {
 				if ( $new_post_id ) {
 					$connection->postId = $new_post_id;
 					$this->plugin->database->setPostConnection( $connection );
+					$proposal->status = Proposal::STATUS_FINISHED;
+					$this->plugin->database->updateProposal($proposal);
 				}
 			}
 		}
