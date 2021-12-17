@@ -34,7 +34,7 @@ class Assets extends Component {
 		$this->utils->registerScript(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_JS,
 			"dist/public-app.js",
-			[ "jquery", Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS ]
+			[ Plugin::HANDLE_PROPOSALS_PUBLIC_API_JS ]
 		);
 		$this->utils->registerStyle(
 			Plugin::HANDLE_PROPOSALS_PUBLIC_APP_STYLE,

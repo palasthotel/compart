@@ -11,9 +11,9 @@ use Palasthotel\WordPress\CommunityParticipation\View\PostsTable;
 /**
  * Plugin Name:       Community participation
  * Description:       Let community participate in the content creation
- * Version:           0.0.1
+ * Version:           1.0.0
  * Requires at least: 5.0
- * Tested up to:      5.7.2
+ * Tested up to:      5.8.2
  * Text Domain:       compart
  * Author:            PALASTHOTEL by Edward
  * Author URI:        http://www.palasthotel.de
