@@ -1,59 +1,62 @@
-jQuery(($) => {
+document.addEventListener("DOMContentLoaded",() => {
 
     const api = Compart.api;
 
-    const $body = $("body");
     const selectComponent = "[data-compart-user-proposal-component]";
     const selectSuccess = "[data-compart-proposal-success]";
     const selectError = "[data-compart-proposal-error]";
     const selectPreview = "[data-compart-proposal-preview]";
 
-    const isSubmitting = ($component, isSubmitting) => {
+    const isSubmitting = (component, isSubmitting) => {
         if(typeof isSubmitting === "boolean"){
             if(isSubmitting){
-                $component.attr("data-is-submitting", "true");
-                $body.addClass("compart-user-proposal__is-submitting");
+                component.setAttribute("data-is-submitting", "true");
+                document.body.classList.add("compart-user-proposal__is-submitting");
             } else {
-                $component.removeAttr("data-is-submitting");
-                $body.removeClass("compart-user-proposal__is-submitting");
+                component.removeAttribute("data-is-submitting");
+                document.body.classList.remove("compart-user-proposal__is-submitting");
             }
         }
-        return $component.attr("data-is-submitting") === "true";
+        return component.getAttribute("data-is-submitting") === "true";
     }
 
-    $body.on("submit", `${selectComponent} form`, function (e) {
+    document.body.addEventListener("submit", function(e){
+
+        const form = e.target;
+        const component = form.closest(selectComponent);
+        if(!component) return;
         e.preventDefault();
-        const $form = $(this);
-        const $component = $form.closest(selectComponent);
 
-        if (isSubmitting($component)) return;
+        if (isSubmitting(component)) return;
 
-        const $proposal = $form.find("[name=compart_proposal]");
-        const proposal = $proposal.val();
+        const proposalField = form.querySelector("[name='compart_proposal']");
+        const proposal = proposalField.value;
 
         if (typeof proposal !== "string" || proposal.length <= 0) {
             return;
         }
 
-        $proposal.prop("disabled", true);
-        isSubmitting($component, true);
+        proposalField.disabled = true;
+        isSubmitting(component, true);
 
         api.createProposal(proposal)
             .then(response => {
-                $proposal.prop("disabled", false);
-                $proposal.val("");
-                isSubmitting($component, false);
+                proposalField.removeAttribute("disabled");
+                proposalField.value = "";
+                isSubmitting(component, false);
                 return response;
-            }).then(onResult($component, proposal));
+            }).then(onResult(component, proposal));
+
+
     });
 
-    const onResult = ($component, proposal) => (response) => {
-        $component.find("form").hide();
+    const onResult = (component, proposal) => (response) => {
+        component.querySelector("form").style.display = "none";
         if (!response.success) {
-            $component.find(selectError).show();
+            component.querySelector(selectError).style.display = "inherit";
             return;
         }
-        $component.find(selectPreview).val(proposal);
-        $component.find(selectSuccess).show();
+        component.querySelector(selectPreview).value = proposal;
+        component.querySelector(selectSuccess).style.display = "inherit";
     }
 });
